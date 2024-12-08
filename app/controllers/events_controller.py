@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.events import Event
-from app.schemas.event_schema import EventSchema
+from app.Schemas.event_schema import EventSchema
 import jwt
 from marshmallow.exceptions import ValidationError
 from datetime import datetime, date
@@ -10,29 +10,38 @@ event_blueprint = Blueprint('events', __name__)
 
 event_schema = EventSchema()
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
+# SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
 
+# def admin_required(f):
+#     def wrapper(*args, **kwargs):
+#         token = request.headers.get("Authorization")
+#         if not token:
+#             return jsonify({"error": "Token is missing"}), 403
+
+#         try:
+#             # Extract JWT token from "Bearer <token>"
+#             token = token.split(" ")[1]
+#             decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+#             request.admin = decoded["username"]  # Store admin username in the request object
+#         except jwt.ExpiredSignatureError:
+#             return jsonify({"error": "Token has expired"}), 401
+#         except jwt.InvalidTokenError:
+#             return jsonify({"error": "Invalid token"}), 401
+
+#         return f(*args, **kwargs)
+
+#     wrapper.__name__ = f.__name__
+#     return wrapper
+
+# for check
 def admin_required(f):
     def wrapper(*args, **kwargs):
-        token = request.headers.get("Authorization")
-        if not token:
-            return jsonify({"error": "Token is missing"}), 403
-
-        try:
-            # Extract JWT token from "Bearer <token>"
-            token = token.split(" ")[1]
-            decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            request.admin = decoded["username"]  # Store admin username in the request object
-        except jwt.ExpiredSignatureError:
-            return jsonify({"error": "Token has expired"}), 401
-        except jwt.InvalidTokenError:
-            return jsonify({"error": "Invalid token"}), 401
-
+        admin_password = request.headers.get("Admin-Password")
+        if admin_password != "your_admin_password":  # Replace with secure password storage
+            return jsonify({"error": "Unauthorized"}), 403
         return f(*args, **kwargs)
-
     wrapper.__name__ = f.__name__
     return wrapper
-
 
 @event_blueprint.route('/events/create', methods=['POST'])
 @admin_required
