@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from app.utils.extensions import mongo
 from app.controllers.events_controller import event_blueprint
+from app.controllers.announcements_controller import announcement_blueprint  
 import json
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ app.config.from_object('app.utils.config.Config')
 mongo.init_app(app)
 
 app.register_blueprint(event_blueprint, url_prefix='/api')
+app.register_blueprint(announcement_blueprint, url_prefix='/api')
 
 @app.route('/')
 def home():
