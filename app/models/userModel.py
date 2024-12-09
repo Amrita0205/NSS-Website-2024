@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.utils.extensions import db
 
 class User:
     collection = db['users']  # Replace 'users' with your MongoDB collection name

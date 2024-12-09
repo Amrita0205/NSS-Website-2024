@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.utils.extensions import db
 
 class Participation:
     collection = db['participations']  # Replace 'participations' with your MongoDB collection name

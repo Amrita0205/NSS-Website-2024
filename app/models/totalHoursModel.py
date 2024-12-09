@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.utils.extensions import db
 
 class TotalHours:
     collection = db['total_hours']  # Replace 'total_hours' with your MongoDB collection name

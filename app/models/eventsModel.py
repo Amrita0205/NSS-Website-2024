@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.utils.extensions import db
 
 class Event:
     collection = db['events']  # Replace 'events' with your MongoDB collection name

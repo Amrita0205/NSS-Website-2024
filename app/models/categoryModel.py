@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.utils.extensions import db
 
 class Category:
     collection = db['categories']  # Replace 'categories' with your MongoDB collection name
