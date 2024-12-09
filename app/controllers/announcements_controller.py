@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.announcements import Announcement
-from app.Schemas.announcements_schema import AnnouncementSchema
+from app.schemas.announcements_schema import AnnouncementSchema
 from marshmallow.exceptions import ValidationError
 from datetime import datetime
 import jwt

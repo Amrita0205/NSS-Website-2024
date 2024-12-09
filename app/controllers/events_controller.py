@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.events import Event
-from app.Schemas.event_schema import EventSchema
+from app.schemas.event_schema import EventSchema
 import jwt
 from marshmallow.exceptions import ValidationError
 from datetime import datetime, date
