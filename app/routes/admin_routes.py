@@ -2,7 +2,7 @@ from flask import Blueprint
 from app.controllers import admin_controller
 
 # Create a Blueprint for admin routes
-admin_bp = Blueprint('admin', __name__, url_prefix='/api/v1/admin')
+admin_bp = Blueprint('admin', __name__)
 
 # Route definitions
 admin_bp.route('/all', methods=['GET'])(admin_controller.get_all_admins)

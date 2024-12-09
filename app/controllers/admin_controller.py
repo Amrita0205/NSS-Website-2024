@@ -2,7 +2,7 @@ from flask import request, jsonify, make_response
 from bson.objectid import ObjectId
 from app.utils.middleware import check_permission
 from app.models.admin import Admin, AdminModel, Role
-from app.config import Config
+from app.utils.config import Config
 import jwt
 import datetime
 
