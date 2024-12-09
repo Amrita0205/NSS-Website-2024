@@ -2,9 +2,9 @@ from flask import request, jsonify
 import jwt
 from functools import wraps
 from bson.objectid import ObjectId
-from app import mongo
+from app.utils.extensions import mongo
 from app.models.admin import Role
-from app.config import Config
+from app.utils.config import Config
 
 def check_permission(allowed_roles):
     def decorator(func):

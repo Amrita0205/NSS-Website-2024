@@ -1,4 +1,4 @@
-from app import mongo
+from app.utils.extensions import mongo
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from enum import Enum
 from bson.objectid import ObjectId

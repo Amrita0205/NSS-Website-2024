@@ -6,3 +6,5 @@ pytest
 marshmallow
 jwt
 python-dotenv
+bcrypt
+pydantic[email]
