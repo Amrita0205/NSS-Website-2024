@@ -10,5 +10,5 @@ def create_app():
     mongo.init_app(app)
     cors.init_app(app)
     #Register blueprints
-    app.register_blueprint(user_blueprint,url_prefix='/api/users')
+    app.register_blueprint(user_blueprint,url_prefix='/api/users') #similar to app.use
     return app
