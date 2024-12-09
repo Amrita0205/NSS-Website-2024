@@ -1,0 +1,172 @@
+
+.contact-contact20 {
+    padding: 50px 0;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  .contact-max-width {
+    width: 80%;
+    max-width: 1200px;
+    animation: slideUp 1s ease-out;
+  }
+  
+  .contact-section-title {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .contact-content1 {
+    margin-top: 20px;
+  }
+  
+  .contact-content1 h2 {
+    font-size: 2.5rem;
+    color: #333;
+    animation: bounceIn 1s ease-in-out;
+  }
+  
+  .contact-text3 {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeInText 1.5s ease-in-out forwards 0.5s;
+  }
+  
+  .contact-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .contact-content2, .contact-content4 {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 45%;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative;
+  }
+  
+  
+  .contact-content2:hover, .contact-content4:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 20px rgba(44, 126, 213, 0.6);
+    border: 2px solid #2c7ed5;
+  }
+  
+  .contact-content2:focus, .contact-content4:focus {
+    box-shadow: 0 0 20px 5px rgba(44, 126, 213, 0.6);
+    outline: none;
+  }
+  
+  .contact-content2 svg, .contact-content4 svg {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    fill: #2c7ed5;
+    transition: transform 0.3s ease;
+  }
+  
+  .contact-contact-info1, .contact-contact-info2 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-content3, .contact-content5 {
+    margin-bottom: 8px;
+  }
+  
+  .contact-text4, .contact-text6 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .contact-email, .contact-phone {
+    font-size: 1rem;
+    color: #666;
+    transition: color 0.3s ease;
+  }
+  
+  .contact-email:hover, .contact-phone:hover {
+    color: #2c7ed5;
+  }
+
+  #email {
+    color: #2c7ed5; 
+    /* font-weight: bold; */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  
+  #email:hover {
+    color: #333; 
+  }
+  
+  #phone {
+    font-size: 1.1rem;
+    color: #2c7ed5; 
+    /* font-weight: bold; */
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  #phone:hover {
+    color: #333; 
+  }
+  
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    0% {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInText {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
