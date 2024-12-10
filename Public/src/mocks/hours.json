@@ -1,0 +1,109 @@
+[
+  {
+    "categoryName": "Category 1",
+    "hours": 100,
+    "total": 150,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 50,
+        "totalHours": 50
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 50,
+        "totalHours": 50
+      },
+      {
+        "name": "E3",
+        "hoursAllocated": 0,
+        "totalHours": 50
+      }
+    ]
+  },
+  {
+    "categoryName": "Category 2",
+    "hours": 20,
+    "total": 40,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 20,
+        "totalHours": 20
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 0,
+        "totalHours": 20
+      }
+    ]
+  },
+  {
+    "categoryName": "Category 3",
+    "hours": 10,
+    "total": 20,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 10,
+        "totalHours": 10
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 0,
+        "totalHours": 10
+      }
+    ]
+  },
+  {
+    "categoryName": "Category 4",
+    "hours": 0,
+    "total": 30,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 0,
+        "totalHours": 15
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 0,
+        "totalHours": 15
+      }
+    ]
+  },
+  {
+    "categoryName": "Category 5",
+    "hours": 50,
+    "total": 50,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 20,
+        "totalHours": 20
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 30,
+        "totalHours": 30
+      }
+    ]
+  },
+  {
+    "categoryName": "Category 6",
+    "hours": 20,
+    "total": 50,
+    "events": [
+      {
+        "name": "E1",
+        "hoursAllocated": 20,
+        "totalHours": 20
+      },
+      {
+        "name": "E2",
+        "hoursAllocated": 0,
+        "totalHours": 30
+      }
+    ]
+  }
+]

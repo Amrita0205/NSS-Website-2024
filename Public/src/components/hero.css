@@ -1,0 +1,46 @@
+/* Container for the horizontally looping gallery */
+.moving-gallery {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 50px 0;
+  background-color: #f9f9f9;
+}
+
+/* Wrapper for the images */
+.gallery-wrapper {
+  display: flex;
+  width: max-content;
+  animation: moveImages 20s linear infinite;
+}
+
+/* Keyframe animation for moving images horizontally */
+@keyframes moveImages {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Individual image container */
+.gallery-item {
+  margin-right: 10px;
+}
+
+/* Image styling */
+.gallery-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+/* Zoom effect on hover */
+.gallery-item:hover .gallery-image {
+  transform: scale(1.1);
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+}
