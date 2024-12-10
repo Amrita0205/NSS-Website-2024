@@ -1,0 +1,10 @@
+Flask
+Flask-PyMongo
+Flask-Cors
+pydantic
+pytest
+marshmallow
+jwt
+python-dotenv
+bcrypt
+pydantic[email]
