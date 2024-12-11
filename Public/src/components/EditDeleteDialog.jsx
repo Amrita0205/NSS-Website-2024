@@ -70,6 +70,16 @@ const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
                 className="w-full p-2 border border-gray-300 rounded-md mb-4"
               />
             </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              />
+            </div>
             <div className="flex justify-between mt-4">
               <button
                 type="button"

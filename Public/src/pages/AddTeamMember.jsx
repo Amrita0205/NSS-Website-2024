@@ -86,7 +86,7 @@ const AddTeamMember = () => {
       <div className="bg-black text-white flex flex-col items-center justify-center h-28 mt-32">
         <h1 className="text-4xl font-extrabold mb-4 tracking-wide">Manage Team</h1>
       </div>
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-black shadow-2xl mt-4">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-black shadow-2xl mt-4 border-2 border-black-300">
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
           Add New Team Member
         </h2>
@@ -180,7 +180,7 @@ const AddTeamMember = () => {
             </h3>
           </div>
 
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-6 justify-center items-center">
             {teamMembers.map((member, index) => (
               <div key={index} className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                 <TeamMemberCard
@@ -191,6 +191,7 @@ const AddTeamMember = () => {
               </div>
             ))}
           </div>
+
         </div>
       </div>
       <Footer />
