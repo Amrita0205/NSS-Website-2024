@@ -82,9 +82,6 @@ const router = createBrowserRouter([
 </div>
 
 <Footer></Footer>
-        <footer className="footer">
-          <p>© 2024 Your Service. All rights reserved.</p>
-        </footer>
       </div>
     ),
   },

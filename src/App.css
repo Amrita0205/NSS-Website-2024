@@ -54,16 +54,10 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   }
   
-  /* .footer {
+  .footer {
     margin-top: 20px;
     font-size: 0.9rem;
-  } */
-  /* .carousel-image {
-    height: 60vh; /* Height is 30% of the viewport height */
-    /* width: 10vh;
-    object-fit: cover; */
-  /* }  */
-  /* */ 
+  } 
   .carousel-image {
     height:80vh;
     width:auto;
@@ -87,7 +81,4 @@ body {
   }
   .image{
     height:195px;
-  }
-  .login-form{
-    
   }
