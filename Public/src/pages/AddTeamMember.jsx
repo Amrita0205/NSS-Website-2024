@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import TeamMemberCard from '../components/TeamMemberCard';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const AddTeamMember = () => {
   const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
     const fetchedTeamMembers = [
-      { id: 1, name: 'John Doe', position: 'Developer', batch: '2020', email: 'john@example.com', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Jane Smith', position: 'Designer', batch: '2019', email: 'jane@example.com', image: 'https://via.placeholder.com/150' },
-      { id: 3, name: 'Michael Lee', position: 'Product Manager', batch: '2021', email: 'michael@example.com', image: 'https://via.placeholder.com/150' },
+      { name: 'John Doe', position: 'Developer', batch: '2020', email: 'john@example.com', image: 'https://via.placeholder.com/150' },
+      { name: 'Jane Smith', position: 'Designer', batch: '2019', email: 'jane@example.com', image: 'https://via.placeholder.com/150' },
+      { name: 'Michael Lee', position: 'Product Manager', batch: '2021', email: 'michael@example.com', image: 'https://via.placeholder.com/150' },
     ];
 
     setTeamMembers(fetchedTeamMembers);
@@ -46,11 +48,12 @@ const AddTeamMember = () => {
       setError('All fields are required. Please fill in all details.');
       return;
     }
+
     const imageUrl = URL.createObjectURL(formData.image);
 
     setTeamMembers([
       ...teamMembers,
-      { id: Date.now(), name: formData.name, position: formData.position, batch: formData.batch, email: formData.email, image: imageUrl },
+      { name: formData.name, position: formData.position, batch: formData.batch, email: formData.email, image: imageUrl },
     ]);
 
     setFormData({
@@ -65,9 +68,22 @@ const AddTeamMember = () => {
     alert('Form successfully submitted!');
   };
 
+  const handleEdit = (email, updatedData) => {
+    setTeamMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member.email === email ? { ...member, ...updatedData } : member
+      )
+    );
+  };
+
+  const handleDelete = (email) => {
+    setTeamMembers((prevMembers) => prevMembers.filter((member) => member.email !== email));
+  };
+
   return (
     <div>
-      <div className="bg-black text-white flex flex-col items-center justify-center h-28">
+      <Navbar />
+      <div className="bg-black text-white flex flex-col items-center justify-center h-28 mt-32">
         <h1 className="text-4xl font-extrabold mb-4 tracking-wide">Manage Team</h1>
       </div>
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-black shadow-2xl mt-4">
@@ -159,29 +175,29 @@ const AddTeamMember = () => {
       <div className="container mx-auto p-6">
         <div className="space-y-6">
           <div className="flex flex-col items-center justify-center mt-10">
-            <h3 className="text-3xl font-extrabold text-gray-800 tracking-wide border-b-4 border-blue-500 inline-block pb-2">
-              Previous Team
+            <h3 className="text-3xl font-bold text-gray-800 tracking-wide border-b-4 border-blue-500 inline-block pb-2">
+              Current Team Members
             </h3>
           </div>
 
           <div className="flex flex-wrap gap-6">
-            {teamMembers.map((member) => (
-              <div key={member.id} className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+            {teamMembers.map((member, index) => (
+              <div key={index} className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                 <TeamMemberCard
-                  name={member.name}
-                  position={member.position}
-                  batch={member.batch}
-                  email={member.email}
-                  image={member.image}
+                  {...member}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
                 />
               </div>
             ))}
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
 
 export default AddTeamMember;
+
 
