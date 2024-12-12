@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './AddEventModal.css';
 
 const AddEventModal = ({ isOpen, onClose, onAdd }) => {
   const [form, setForm] = useState({
@@ -38,9 +39,9 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Add Event</h2>
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <h2 className="modal-heading">Add Event</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -48,7 +49,7 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             placeholder="Event Title"
             value={form.title}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -56,7 +57,7 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             name="date"
             value={form.date}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -65,7 +66,7 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             placeholder="Venue"
             value={form.venue}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <textarea
@@ -73,20 +74,20 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
-          <div className="flex justify-end">
+          <div className="button-container">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              className="cancel-button"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="submit-button"
             >
               Add
             </button>

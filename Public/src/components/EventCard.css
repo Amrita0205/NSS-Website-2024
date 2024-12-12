@@ -1,0 +1,101 @@
+/* Event Card Styles */
+.event-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin: 0.5rem;
+    width: 20rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .event-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2d3748;
+  }
+  
+  .event-details {
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+  }
+  
+  .event-description {
+    font-size: 1rem;
+    color: #2d3748;
+    margin-top: 1rem;
+  }
+  
+  .event-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    margin-right: 2rem;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+    margin-left: 0.5rem;
+  }
+  
+  .edit-btn {
+    background-color: #ecc94b;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #e53e3e;
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #d69e2e;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c53030;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .event-card {
+      width: 100%;
+    }
+  
+    .event-title {
+      font-size: 1.125rem;
+    }
+  
+    .event-details {
+      font-size: 0.75rem;
+    }
+  
+    .event-description {
+      font-size: 0.875rem;
+    }
+  
+    .event-actions {
+      flex-direction: row;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .edit-btn,
+    .delete-btn {
+      width: 10%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './EditEventModal.css'
 
 const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
   const [form, setForm] = useState({ title: '', date: '', venue: '', description: '' });
@@ -24,9 +25,9 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Edit Event</h2>
+    <div className="edit-event-modal">
+      <div className="modal-content">
+        <h2 className="modal-title">Edit Event</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -34,7 +35,7 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             placeholder="Event Title"
             value={form.title}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -42,7 +43,7 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             name="date"
             value={form.date}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -51,7 +52,7 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             placeholder="Venue"
             value={form.venue}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
           <textarea
@@ -59,20 +60,20 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
-            className="w-full p-2 mb-3 border rounded"
+            className="input-field"
             required
           />
-          <div className="flex justify-end">
+          <div className="modal-actions">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              className="cancel-btn"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="submit-btn"
             >
               Update
             </button>
