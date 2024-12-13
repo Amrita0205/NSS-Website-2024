@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint, abort
 from bson.objectid import ObjectId
-from app import mongo
+from app.utils.extensions import mongo
 from datetime import datetime
 from flask.views import MethodView
 

@@ -4,4 +4,3 @@ from flask_cors import CORS
 # Extensions
 mongo = PyMongo()
 cors = CORS()
-db = mongo.db
