@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from app.models.team import Team
-from app.Schemas.team_schema import TeamSchema
+from app.schemas.team_schema import TeamSchema
 from marshmallow.exceptions import ValidationError
+from app.utils.middleware import check_permission
+from app.models.admin import Admin, AdminModel, Role
 import jwt
 import os
 from datetime import datetime
@@ -44,7 +46,7 @@ def admin_required(f):
     return wrapper
 
 @team_blueprint.route('/team/create', methods=['POST'])
-@admin_required
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def add_member():
     try:
         data = request.json

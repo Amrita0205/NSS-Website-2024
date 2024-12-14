@@ -1,5 +1,6 @@
 from flask import Flask
 from app.utils.extensions import mongo,cors
+# import certifi
 # from app.routes.user_routes import user_blueprint
 from app.routes.admin_routes import admin_bp
 
