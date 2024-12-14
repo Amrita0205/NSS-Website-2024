@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from app.utils.extensions import mongo
+from flask_cors import CORS
 from app.controllers.events_controller import event_blueprint
 from app.controllers.announcements_controller import announcement_blueprint
 from app.controllers.team_controller import team_blueprint  
@@ -8,6 +9,7 @@ from app.routes.studentRoute import student_bp
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 app.config.from_object('app.utils.config.Config')
 
