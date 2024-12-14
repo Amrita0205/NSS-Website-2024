@@ -4,7 +4,8 @@ import "./navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false); 
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false); 
 
   const scrollToSection = (sectionId) => {
     navigate('/');
@@ -25,13 +26,17 @@ const Navbar = () => {
     setMobileMenuOpen((prev) => !prev);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev); 
+  };
+
   return (
     <header className="navbar-container">
       <nav className="navbar-navbar-interactive">
         <div className="navbar-logo-container">
           <img
             alt="NSS IIIT Raichur"
-            src="https://students.iiitr.ac.in/assets/images/club/nss-inverted.png"
+            src="/images/nss-inverted.png"
             className="navbar-image1"
           />
           <span className="navbar-logo-text">NSS IIIT Raichur</span>
@@ -83,11 +88,36 @@ const Navbar = () => {
                 Announcements
               </span>
             </li>
+            <li className="navbar-dropdown">
+              <span
+                className="thq-link thq-body-small"
+                role="button"
+                onClick={toggleDropdown} 
+              >
+                Our Team
+              </span>
+              {isDropdownOpen && (
+                <ul className="navbar-dropdown-menu">
+                  <li>
+                    <Link to="/bigcard" className="navbar-link">Team 2024-25</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year2" className="navbar-link">Team 2023-24</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year3" className="navbar-link">Team 2022-23</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year4" className="navbar-link">Team 2021-22</Link>
+                  </li>
+                </ul>
+              )}
+            </li>
           </ul>
 
           <div className="navbar-buttons1">
             <Link
-              to="/hours"
+              to="/entry"
               className="navbar-action11 thq-button-animated thq-button-filled"
             >
               <span className="thq-body-small">Hours Portal</span>
@@ -102,7 +132,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-    
       {isMobileMenuOpen && (
         <div className="navbar-mobile-menu">
           <div className="navbar-close-menu" onClick={toggleMobileMenu}>
@@ -154,11 +183,37 @@ const Navbar = () => {
                 Announcements
               </span>
             </li>
+
+            <li className="navbar-dropdown">
+              <span
+                className="thq-link thq-body-small"
+                role="button"
+                onClick={toggleDropdown} 
+              >
+                Our Team
+              </span>
+              {isDropdownOpen && (
+                <ul className="navbar-dropdown-menu">
+                  <li>
+                    <Link to="/team/year1" className="navbar-link">Team 2024-25</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year2" className="navbar-link">Team 2023-24</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year3" className="navbar-link">Team 2022-23</Link>
+                  </li>
+                  <li>
+                    <Link to="/team/year4" className="navbar-link">Team 2021-22</Link>
+                  </li>
+                </ul>
+              )}
+            </li>
           </ul>
 
           <div className="navbar-buttons1">
             <Link
-              to="/hours"
+              to="/entry"
               className="navbar-action11 thq-button-animated thq-button-filled"
             >
               <span className="thq-body-small">Hours Portal</span>

@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="footer-newsletter">
             <img
               alt="IIIT Raichur"
-              src="https://students.iiitr.ac.in/assets/images/logo/logo_white.png"
+              src="/images/logo_white.png"
               className="footer-image1"
             />
           </div>

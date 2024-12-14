@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "title": "Announcement 1",
+      "description": "This is the first announcement."
+    },
+    {
+      "id": 2,
+      "title": "Announcement 2",
+      "description": "This is the second announcement."
+    },
+    {
+      "id": 3,
+      "title": "Announcement 1",
+      "description": "This is the first announcement."
+    },
+    {
+      "id": 4,
+      "title": "Announcement 2",
+      "description": "This is the second announcement."
+    },
+    {
+      "id": 5,
+      "title": "Announcement 1",
+      "description": "This is the first announcement."
+    },
+    {
+      "id": 6,
+      "title": "Announcement 2",
+      "description": "This is the second announcement."
+    }
+  ]
+  

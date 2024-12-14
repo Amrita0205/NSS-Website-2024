@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import './EditDeleteDialog.css'
+
 
 const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
   const [formData, setFormData] = useState({
@@ -34,78 +36,80 @@ const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">{data.action === 'edit' ? 'Edit Member' : 'Delete Member'}</h2>
+    <div className="edit-delete-dialog">
+      <div className="dialog-content">
+        <h2 className="dialog-title">
+          {data.action === 'edit' ? 'Edit Member' : 'Delete Member'}
+        </h2>
         
         {data.action === 'edit' ? (
           <form onSubmit={handleSubmitEdit}>
-            <div>
+            <div className="form-group">
               <label>Name</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                className="input-field"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Position</label>
               <input
                 type="text"
                 name="position"
                 value={formData.position}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                className="input-field"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Batch</label>
               <input
                 type="text"
                 name="batch"
                 value={formData.batch}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                className="input-field"
               />
             </div>
-            <div>
+            <div className="form-group">
               <label>Email</label>
               <input
                 type="text"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                className="input-field"
               />
             </div>
-            <div className="flex justify-between mt-4">
+            <div className="dialog-actions">
               <button
                 type="button"
                 onClick={onClose}
-                className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                className="cancel-btn"
               >
                 Cancel
               </button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              <button type="submit" className="save-btn">
                 Save
               </button>
             </div>
           </form>
         ) : (
           <div className="text-center">
-            <p>Are you sure you want to delete {data.name}?</p>
-            <div className="flex justify-between mt-4">
+            <p className="text-center-paragraph">Are you sure you want to delete {data.name}?</p>
+            <div className="dialog-actions">
               <button
                 onClick={onClose}
-                className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                className="cancel-btn"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmitDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded-md"
+                className="delete-btn"
               >
                 Delete
               </button>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EditDeleteDialog from './EditDeleteDialog';
+import './TeamMemberCard.css'
 
 const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete }) => {
   const [dialogData, setDialogData] = useState(null);
@@ -38,35 +39,35 @@ const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete 
 
   return (
     <>
-      <div className="w-[275px] h-[450px] bg-white shadow-xl rounded-lg overflow-hidden flex flex-col items-center p-6 my-10 transform shadow-4xl transition-all duration-300 hover:scale-105 hover:shadow-4xl border border-black">
-        <div className="flex justify-center p-4">
+      <div className="team-member-card">
+        <div className="team-member-image-container">
           <img
-            className="h-36 w-36 object-cover rounded-full border-4 border-gray-200 transform transition-all duration-300 hover:scale-110"
+            className="team-member-image"
             src={image || 'https://via.placeholder.com/150'}
             alt="Profile"
           />
         </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-semibold text-gray-800">{name || 'Name'}</h1>
-          <p className="text-lg text-gray-500">{position || 'Position'}</p>
-          <p className="text-sm text-gray-400">{batch || 'Batch'}</p>
+        <div className="team-member-details">
+          <h1 className="team-member-name">{name || 'Name'}</h1>
+          <p className="team-member-position">{position || 'Position'}</p>
+          <p className="team-member-batch">{batch || 'Batch'}</p>
         </div>
-        <div className="h-[8px] bg-gray-300 my-6 w-full"></div>
+        <div className="card-divider"></div>
 
-        <button className="bg-green-400 text-white hover:bg-green-400 px-5 py-2 rounded-8 flex items-center justify-center space-x-2 transition duration-300">
+        <button className="team-member-email-btn">
           <span>{email || 'Email'}</span>
         </button>
 
-        <div className="flex space-x-4 mt-4">
+        <div className="card-action-buttons">
           <button
             onClick={handleEdit}
-            className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 w-[80px]"
+            className="edit-btn"
           >
             Edit
           </button>
           <button
             onClick={handleDelete}
-            className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 w-[80px]"
+            className="delete-btn"
           >
             Delete
           </button>

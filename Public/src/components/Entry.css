@@ -1,0 +1,86 @@
+/* Entry.css */
+
+.Entry-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f4f4f4; /* Lighter background color */
+    color: rgb(249, 248, 246);
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    /* Centering the content box */
+  }
+  
+  .main-content-header{
+    font-size: 48px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-top:8rem;
+    padding-bottom: 5rem;
+    color: #333; /* Dark text for better contrast */
+  }
+  
+  button {
+    padding: 10px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4b6cb7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+  }
+  
+  button:hover {
+    background-color: #182848;
+    transform: translateY(-3px);
+  }
+  
+  button:active {
+    transform: translateY(1px);
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(75, 108, 183, 0.7);
+  }
+  
+  .Entry-container .main-content div {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .Entry-container .main-content h1,
+  .Entry-container .main-content button {
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 20px;
+    }
+  
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+  
+    button {
+      font-size: 16px;
+      padding: 12px 30px;
+    }
+  }
+  
