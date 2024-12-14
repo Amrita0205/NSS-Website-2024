@@ -1,0 +1,69 @@
+/* Reset the default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  font-family: "Arial", sans-serif;
+}
+
+/* Center the portal container */
+.hours-portal-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  .hours-complaint-header h1 {
+    color: #4a4a4a;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .guidelines-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .guidelines-list li {
+    margin-bottom: 10px;
+  }
+  
+  .complaint-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #6c63ff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .complaint-button:hover {
+    background-color: #4a47d1;
+  }
+  
+  .note {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
+  
+  .note strong {
+    color: #4a4a4a;
+  }
+  
