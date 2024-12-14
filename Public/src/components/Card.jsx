@@ -1,27 +1,26 @@
 import React from 'react';
 import './Card.css'
 
-function Card(props) {
+const Card = ({image,name,position,batch,email}) => {
   return (
-    <div className="card-container">
-      <div className="card-image-container">
-        <img
-          className="card-image"
-          src={props.image || "https://via.placeholder.com/150"}
-          alt="Profile"
-        />
-      </div>
-      <div className="card-details">
-        <h1 className="card-name">{props.name || "Name"}</h1>
-        <p className="card-position">{props.position || "Position"}</p>
-        <p className="card-batch">{props.batch || "Batch"}</p>
-      </div>
+    <div className="team-member-card">
+        <div className="team-member-image-container">
+          <img
+            className="team-member-image"
+            src={image || 'https://via.placeholder.com/150'}
+            alt="Profile"
+          />
+        </div>
+        <div className="team-member-details">
+          <h1 className="team-member-name">{name || 'Name'}</h1>
+          <p className="team-member-position">{position || 'Position'}</p>
+          <p className="team-member-batch">{batch || 'Batch'}</p>
+        </div>
+        <div className="card-divider"></div>
 
-      <div className="card-divider"></div>
-
-      <button className="card-button">
-        <span>{props.email || "Email"}</span>
-      </button>
+        <button className="team-member-email-btn">
+          <span>{email || 'Email'}</span>
+        </button>
     </div>
   );
 }

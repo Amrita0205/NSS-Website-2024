@@ -32,11 +32,11 @@
   }
   
   .nav-link:hover {
-    color: #edf2f7; /* Light color when hovered */
+    color: #edf2f7; 
     text-decoration: underline;
   }
   
-  /* Mobile responsiveness */
+  
   @media (max-width: 768px) {
     .header-container {
       flex-direction: column;

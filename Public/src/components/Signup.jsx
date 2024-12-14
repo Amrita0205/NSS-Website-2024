@@ -95,9 +95,9 @@ function Signup() {
                   Register
                 </button>
               </div>
-              <div className="signup-link">
+              {/* <div className="signup-link">
                 <Link to="/login">Already have an account? Log in</Link>
-              </div>
+              </div> */}
             </form>
           </div>
           <div className="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2 signup-image-container">

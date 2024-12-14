@@ -118,6 +118,12 @@
   color: white;
 }
 
+.card-yellow {
+  background-color: #ffcd04;
+  border-color: #ffcd04;
+  color: white;
+}
+
 .dash-card-link {
   display: block;
   height: 100%;

@@ -18,6 +18,7 @@ import Login_F from './components/Login_F';
 import ChecKHoursPage from './components/ChecKHoursPage';
 import NssPage from './components/NssPage';
 import HoursPortal from './components/HoursPortal';
+import {BigCard} from './components/Bigcard';
 
 
 
@@ -44,6 +45,7 @@ const Root = () => {
         <Route path="/checkhours" element={<ChecKHoursPage />} />
         <Route path="/nss" element={<NssPage />} />
         <Route path="/hoursportal" element={<HoursPortal />} />
+        <Route path="/bigcard" element={<BigCard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

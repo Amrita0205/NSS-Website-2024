@@ -3,6 +3,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { CalendarIcon, UserGroupIcon, ClockIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
+import { UserAddIcon } from '@heroicons/react/outline'; 
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -47,6 +48,21 @@ const Dashboard = () => {
                     </div>
                     <p className="dash-card-description">
                       Add new members to NSS team according to their roles.
+                    </p>
+                  </Link>
+                </div>
+
+                <div
+                  className="dashboard-card card-yellow"
+                >
+                  <Link to="/signup" className="dash-card-link">
+
+                    <div className="card-header">
+                      <UserAddIcon className="card-icon" />
+                      <h2 className="dash-card-title">Register Students</h2>
+                    </div>
+                    <p className="dash-card-description">
+                     Register students into the system those in NSS club.
                     </p>
                   </Link>
                 </div>

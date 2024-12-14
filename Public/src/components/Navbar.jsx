@@ -99,7 +99,7 @@ const Navbar = () => {
               {isDropdownOpen && (
                 <ul className="navbar-dropdown-menu">
                   <li>
-                    <Link to="/team/year1" className="navbar-link">Team 2024-25</Link>
+                    <Link to="/bigcard" className="navbar-link">Team 2024-25</Link>
                   </li>
                   <li>
                     <Link to="/team/year2" className="navbar-link">Team 2023-24</Link>

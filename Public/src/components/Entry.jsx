@@ -47,7 +47,7 @@ const Entry = () => {
             }}
             onMouseEnter={(e) => (e.target.style.backgroundColor = "#182848")}
             onMouseLeave={(e) => (e.target.style.backgroundColor = "#4b6cb7")}
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/login')}
           >
             Enter as Student
           </button>
