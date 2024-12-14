@@ -6,7 +6,6 @@ import DeleteConfirmation from '../components/DeleteConfirmation';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
-
 const ManageEvents = () => {
   const [events, setEvents] = useState([
     { id: 1, title: 'Cleanliness drive', date: '2024-12-15', venue: 'Acad', description: 'To clean' },
@@ -15,21 +14,23 @@ const ManageEvents = () => {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleAddEvent = (newEvent) => {
-    setEvents([...events, { ...newEvent, id: events.length + 1 }]);
+    setEvents([...events, { ...newEvent, id: Date.now() }]); // Adding unique id
     setAddModalOpen(false);
   };
 
   const handleUpdateEvent = (updatedEvent) => {
-    setEvents(events.map(event => event.id === updatedEvent.id ? updatedEvent : event));
+    setEvents(events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)));
     setEditModalOpen(false);
+    setSelectedEvent(null);
   };
 
-  const handleDeleteEvent = (eventId) => {
-    setEvents(events.filter(event => event.id !== eventId));
+  const handleDeleteEvent = () => {
+    setEvents(events.filter((event) => event.id !== selectedEvent.id));
     setDeleteModalOpen(false);
+    setSelectedEvent(null);
   };
 
   return (
@@ -39,7 +40,7 @@ const ManageEvents = () => {
         <h1 className="text-4xl font-extrabold mb-4 tracking-wide">Manage Events</h1>
         <p className="text-lg font-light opacity-80">Organize and manage events effortlessly.</p>
       </div>
-  
+
       <div className="flex items-center justify-center py-8">
         <button
           className="bg-green-600 text-white px-6 py-3 h-16 w-40 rounded-lg shadow-md hover:bg-green-700 focus:ring-4 focus:ring-green-300 transition duration-300 flex items-center justify-center gap-2"
@@ -48,7 +49,7 @@ const ManageEvents = () => {
           <span className="text-xl font-semibold">Add Event</span>
         </button>
       </div>
-  
+
       <div className="min-h-screen flex flex-col">
         <div className="flex-grow">
           <div className="container mx-auto p-4">
@@ -59,11 +60,11 @@ const ManageEvents = () => {
                     key={event.id}
                     event={event}
                     onEdit={() => {
-                      setCurrentEvent(event);
+                      setSelectedEvent(event);
                       setEditModalOpen(true);
                     }}
                     onDelete={() => {
-                      setCurrentEvent(event);
+                      setSelectedEvent(event);
                       setDeleteModalOpen(true);
                     }}
                   />
@@ -80,30 +81,30 @@ const ManageEvents = () => {
               onClose={() => setAddModalOpen(false)}
               onAdd={handleAddEvent}
             />
-  
-            {currentEvent && (
+
+            {selectedEvent && (
               <EditEventModal
                 isOpen={isEditModalOpen}
                 onClose={() => setEditModalOpen(false)}
-                event={currentEvent}
+                event={selectedEvent}
                 onUpdate={handleUpdateEvent}
               />
             )}
 
-            {currentEvent && (
+            {selectedEvent && (
               <DeleteConfirmation
                 isOpen={isDeleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
-                onConfirm={() => handleDeleteEvent(currentEvent.id)}
-                eventTitle={currentEvent.title}
+                onConfirm={handleDeleteEvent}
+                eventTitle={selectedEvent.title}
               />
             )}
           </div>
         </div>
-      <Footer/>
+        <Footer />
       </div>
     </div>
   );
-  };
+};
 
 export default ManageEvents;
