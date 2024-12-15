@@ -1,170 +1,155 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Footer from '../components/footer';
 import Navbar from '../components/navbar';
 import './StudentHours.css'; // Importing the external CSS file
 
 const StudentHours = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState([
+    { rollNumber: '1' },
+    { rollNumber: '2' },
+    { rollNumber: '3' },
+    { rollNumber: '4' },
+  ]);
   const [batches, setBatches] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [events, setEvents] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState('');
-  const [selectedStudent, setSelectedStudent] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedStudents, setSelectedStudents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState('');
-  const [hours, setHours] = useState('');
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const fetchBatches = async () => {
-      const response = await fetch('/api/batches');
-      const data = await response.json();
-      setBatches(data);
-    };
+    setBatches([
+      { name: 'Batch 2024' },
+      { name: 'Batch 2023' },
+      { name: 'Batch 2022' },
+      { name: 'Batch 2021' },
+    ]);
 
-    const fetchCategories = async () => {
-      const response = await fetch('/api/categories');
-      const data = await response.json();
-      setCategories(data);
-    };
+    setEvents([
+      { name: 'Event A' },
+      { name: 'Event B' },
+    ]);
 
-    const fetchEvents = async () => {
-      const response = await fetch('/api/events');
-      const data = await response.json();
-      setEvents(data);
-    };
-
-    fetchBatches();
-    fetchCategories();
-    fetchEvents();
-  }, []);
-
-  useEffect(() => {
-    const fetchStudents = async () => {
-      if (selectedBatch) {
-        const response = await fetch(`/api/students?batch=${selectedBatch}`);
-        const data = await response.json();
-        setStudents(data);
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownVisible(false);
       }
     };
 
-    fetchStudents();
-  }, [selectedBatch]);
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    alert("Submission successful");
     const data = {
-      studentId: selectedStudent,
-      categoryId: selectedCategory,
-      eventId: selectedEvent,
-      hours: hours,
+      event: selectedEvent,
+      batch: selectedBatch,
+      studentRollNumbers: selectedStudents,
     };
 
-    await fetch('/api/submitHours', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    console.log('Selected Data:', data);
 
-    setSelectedStudent('');
-    setSelectedCategory('');
+    setSelectedStudents([]);
+    setSelectedBatch('');
     setSelectedEvent('');
-    setHours('');
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const handleStudentSelection = (rollNumber) => {
+    setSelectedStudents((prev) => {
+      if (prev.includes(rollNumber)) {
+        return prev.filter(roll => roll !== rollNumber);
+      }
+      return [...prev, rollNumber];
+    });
   };
 
   return (
     <div>
       <Navbar />
-      <div className="student-hours-header">
-        <h1 className="student-hours-header-h1">Student's Hours</h1>
+      <div className="student-hours__header">
+        <h1 className="student-hours__header-h1">Student's Hours</h1>
       </div>
-      <div className="form-container">
-        <h1 className="text-2xl font-semibold text-center mb-6 add-student-header">Add Student's Hours</h1>
+      <div className="student-hours__form-container">
+        <h1 className="student-hours__form-title">Add Student's Hours</h1>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Select Batch:</label>
-            <select
-              value={selectedBatch}
-              onChange={(e) => setSelectedBatch(e.target.value)}
-              required
-              className="form-select"
-            >
-              <option value="">Select Batch</option>
-              {batches.map((batch) => (
-                <option key={batch.id} value={batch.id}>
-                  {batch.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Select Student (Roll No.):</label>
-            <select
-              value={selectedStudent}
-              onChange={(e) => setSelectedStudent(e.target.value)}
-              required
-              className="form-select"
-            >
-              <option value="">Select Student</option>
-              {students.map((student) => (
-                <option key={student.id} value={student.id}>
-                  {student.rollNumber}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Select Category:</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              required
-              className="form-select"
-            >
-              <option value="">Select Category of Event</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Select Event:</label>
+          <div className="student-hours__form-group">
+            <label className="student-hours__form-label">Select Event:</label>
             <select
               value={selectedEvent}
               onChange={(e) => setSelectedEvent(e.target.value)}
               required
-              className="form-select"
+              className="student-hours__form-select"
             >
-              <option value="">Select Event</option>
+              <option value="">Click to select Event</option>
               {events.map((event) => (
-                <option key={event.id} value={event.id}>
+                <option key={event.name} value={event.name}>
                   {event.name}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Enter Hours:</label>
-            <input
-              type="number"
-              value={hours}
-              onChange={(e) => setHours(e.target.value)}
+          <div className="student-hours__form-group">
+            <label className="student-hours__form-label">Select Batch:</label>
+            <select
+              value={selectedBatch}
+              onChange={(e) => setSelectedBatch(e.target.value)}
               required
-              min="0"
-              className="form-input"
-            />
+              className="student-hours__form-select"
+            >
+              <option value="">Click to select Batch</option>
+              {batches.map((batch) => (
+                <option key={batch.name} value={batch.name}>
+                  {batch.name}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className='flex justify-center '>
+
+          <div className="student-hours__form-group">
+            <label className="student-hours__form-label">Select Students (Roll No.):</label>
+
+            <div className="student-hours__dropdown-container" ref={dropdownRef}>
+              <input
+                type="text"
+                placeholder="Click to select students"
+                onClick={toggleDropdown}
+                value={selectedStudents.join(', ')}
+                readOnly
+                className="student-hours__dropdown-input"
+              />
+              {isDropdownVisible && (
+                <ul className="student-hours__dropdown-menu">
+                  {students.map((student) => (
+                    <li
+                      key={student.rollNumber}
+                      onClick={() => handleStudentSelection(student.rollNumber)}
+                      className={`student-hours__dropdown-item ${selectedStudents.includes(student.rollNumber) ? 'student-hours__dropdown-item--selected' : ''}`}
+                    >
+                      {student.rollNumber}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div> 
+          </div>
+
+          <div className="student-hours__submit-container">
             <button
               type="submit"
-              className="submit-btn"
+              className="student-hours__submit-button"
             >
               Submit
             </button>

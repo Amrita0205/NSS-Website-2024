@@ -37,7 +37,7 @@ const Hero = () => {
     };
 
     const handleMouseEnter = () => {
-        setIsPaused(true);
+        setIsPaused(false);
     };
 
     const handleMouseLeave = () => {

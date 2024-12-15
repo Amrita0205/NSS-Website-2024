@@ -3,7 +3,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { CalendarIcon, UserGroupIcon, ClockIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
-import { UserAddIcon } from '@heroicons/react/outline'; 
+import { UserAddIcon,ClipboardListIcon } from '@heroicons/react/outline'; 
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -34,9 +34,9 @@ const Dashboard = () => {
                       <CalendarIcon className="card-icon" />
                       <h2 className="dash-card-title">Manage Events</h2>
                     </div>
-                    <p className="dash-card-description">
+                    {/* <p className="dash-card-description">
                       View, edit, and manage events.
-                    </p>
+                    </p> */}
                   </Link>
                 </div>
 
@@ -46,9 +46,9 @@ const Dashboard = () => {
                       <UserGroupIcon className="card-icon" />
                       <h2 className="dash-card-title">Add Team Members</h2>
                     </div>
-                    <p className="dash-card-description">
+                    {/* <p className="dash-card-description">
                       Add new members to NSS team according to their roles.
-                    </p>
+                    </p> */}
                   </Link>
                 </div>
 
@@ -61,9 +61,9 @@ const Dashboard = () => {
                       <UserAddIcon className="card-icon" />
                       <h2 className="dash-card-title">Register Students</h2>
                     </div>
-                    <p className="dash-card-description">
+                    {/* <p className="dash-card-description">
                      Register students into the system those in NSS club.
-                    </p>
+                    </p> */}
                   </Link>
                 </div>
 
@@ -73,9 +73,21 @@ const Dashboard = () => {
                       <ClockIcon className="card-icon" />
                       <h2 className="dash-card-title">Add Students' Hours</h2>
                     </div>
-                    <p className="dash-card-description">
+                    {/* <p className="dash-card-description">
                       Add the hours spent by students.
-                    </p>
+                    </p> */}
+                  </Link>
+                </div>
+
+                <div className="dashboard-card card-blue">
+                  <Link to="/checkattendance" className="dash-card-link">
+                    <div className="card-header">
+                      <ClipboardListIcon className="card-icon" />
+                      <h2 className="dash-card-title">Check Attendance</h2>
+                    </div>
+                    {/* <p className="dash-card-description">
+                      .
+                    </p> */}
                   </Link>
                 </div>
               </div>

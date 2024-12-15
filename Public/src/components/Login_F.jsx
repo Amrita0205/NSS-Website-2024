@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import "./Login.css";
 
-function Login_F() {
+function Login() {
   const navigate = useNavigate(); // Hook to navigate between pages
   const [formData, setFormData] = useState({
     email: '',
@@ -92,4 +92,4 @@ function Login_F() {
   );
 }
 
-export default Login_F;
+export default Login;
