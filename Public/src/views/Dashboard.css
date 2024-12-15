@@ -39,7 +39,7 @@
 .dashboard-content {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .dashboard-layout {
@@ -93,7 +93,7 @@
   border: 1px solid transparent;
   transition: transform 0.3s;
   width: 25rem;
-  height: 6.25rem;
+  height: 5rem;
 }
 
 .dashboard-card:hover {
