@@ -1,78 +1,102 @@
-.student-hours-header {
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 5.5rem;
-    margin-top: 3.5rem;
-  }
+.student-hours__header {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 5.5rem;
+  margin-top: 3.5rem;
+}
 
-  .student-hours-header-h1{
-    color:white;
-    margin-top: 25px;
-  }
-  
-  .form-container {
-    max-width: 40rem;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid #333;
-  }
+.student-hours__header-h1 {
+  color: white;
+  margin-top: 25px;
+}
 
-  .add-student-header {
-    color: #0e0e0e; /* Replace with your desired color */
-  }
-  
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-label {
-    font-size: 0.875rem;
-    font-weight: medium;
-    color: #4a4a4a;
-    margin-bottom: 0.25rem;
-  }
-  
-  .form-select,
-  .form-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.375rem;
-    font-size: 1rem;
-    color: #4a4a4a;
-  }
-  
-  .form-select:focus,
-  .form-input:focus {
-    outline: none;
-    /* ring: 2px solid #3b82f6; */
-  }
-  
-  .submit-btn {
-    width: 6.25rem;
-    background-color: #3b82f6;
-    color: white;
-    border-radius: 0.375rem;
-    margin-left: 14rem;
-    font-weight: medium;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .submit-btn:hover {
-    background-color: #2563eb;
-  }
-  
-  .submit-btn:focus {
-    outline: none;
-    /* ring: 2px solid #2563eb; */
-  }
-  
+.student-hours__form-container {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.934);
+  border: 2px solid #faf9f9;
+}
+
+.student-hours__form-title {
+  color: #0e0e0e;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.student-hours__form-group {
+  margin-bottom: 1rem;
+}
+
+.student-hours__form-label {
+  font-size: 0.875rem;
+  font-weight: medium;
+  color: #4a4a4a;
+  margin-bottom: 0.25rem;
+}
+
+.student-hours__form-select,
+.student-hours__dropdown-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  color: #0b0b0b;
+}
+
+.student-hours__dropdown-container {
+  position: relative;
+}
+
+.student-hours__dropdown-menu {
+  position: absolute;
+  z-index: 10;
+  margin-top: 0.25rem;
+  width: 100%;
+  background-color: rgb(253, 252, 252);
+  border: 1px solid #d1d5db;
+  color: #0e0e0e;
+  border-radius: 0.375rem;
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
+.student-hours__dropdown-item {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.student-hours__dropdown-item:hover {
+  background-color: #717171;
+}
+
+.student-hours__dropdown-item--selected {
+  background-color: #bfdbfe;
+}
+
+.student-hours__submit-container {
+  display: flex;
+  justify-content: center;
+}
+
+.student-hours__submit-button {
+  width: 6.25rem;
+  padding: 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.375rem;
+  font-weight: medium;
+  border: none;
+  cursor: pointer;
+}
+
+.student-hours__submit-button:hover {
+  background-color: #2563eb;
+}

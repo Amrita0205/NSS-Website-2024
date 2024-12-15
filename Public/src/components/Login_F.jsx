@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-function Login_F() {
+function Login() {
   const navigate = useNavigate(); // Hook to navigate between pages
 
   const handleSubmit = (e) => {
@@ -55,4 +55,4 @@ function Login_F() {
   );
 }
 
-export default Login_F;
+export default Login;
