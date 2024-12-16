@@ -62,6 +62,15 @@ const Navbar = () => {
               </span>
             </li>
             <li>
+            <span
+                className="thq-link thq-body-small"
+                role="button"
+                onClick={() => scrollToSection("App_event")}
+              >
+                Events
+              </span>
+            </li>
+            <li>
               <span
                 className="thq-link thq-body-small"
                 role="button"
@@ -79,15 +88,16 @@ const Navbar = () => {
                 Contact Us
               </span>
             </li>
+            
             <li>
-              <span
-                className="thq-link thq-body-small"
-                role="button"
-                onClick={() => scrollToSection("CTA")}
-              >
-                Announcements
-              </span>
-            </li>
+  <Link
+    className="thq-link thq-body-small"
+    to="/nss" // Specify the route for the new page
+  >
+    NSS Constitution
+  </Link>
+</li>
+
             <li className="navbar-dropdown">
               <span
                 className="thq-link thq-body-small"
@@ -157,6 +167,15 @@ const Navbar = () => {
               </span>
             </li>
             <li>
+            <span
+                className="thq-link thq-body-small"
+                role="button"
+                onClick={() => scrollToSection("App_event")}
+              >
+                Events
+              </span>
+              </li>
+            <li>
               <span
                 className="thq-link thq-body-small"
                 role="button"
@@ -175,14 +194,13 @@ const Navbar = () => {
               </span>
             </li>
             <li>
-              <span
-                className="thq-link thq-body-small"
-                role="button"
-                onClick={() => scrollToSection("CTA")}
-              >
-                Announcements
-              </span>
-            </li>
+  <Link
+    className="thq-link thq-body-small"
+    to="/nss" // Specify the route for the new page
+  >
+    NSS Constitution
+  </Link>
+</li>
 
             <li className="navbar-dropdown">
               <span
@@ -195,7 +213,7 @@ const Navbar = () => {
               {isDropdownOpen && (
                 <ul className="navbar-dropdown-menu">
                   <li>
-                    <Link to="/team/year1" className="navbar-link">Team 2024-25</Link>
+                    <Link to="/bigcard" className="navbar-link">Team 2024-25</Link>
                   </li>
                   <li>
                     <Link to="/team/year2" className="navbar-link">Team 2023-24</Link>

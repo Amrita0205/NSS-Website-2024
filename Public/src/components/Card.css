@@ -1,6 +1,7 @@
+/* Base styles for the team member card */
 .team-member-card {
   width: 275px;
-  height: 450px;
+  height: auto; /* Allow flexible height for responsiveness */
   background-color: white;
   border-radius: 1rem;
   overflow: hidden;
@@ -9,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  margin: 2.5rem auto;
+  margin: 2rem auto; /* Reduce margin for smaller screens */
   transition: all 0.3s ease;
   cursor: pointer;
   border: 1px solid black;
@@ -53,30 +54,32 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: #2d3748;
+  text-align: center; /* Ensure proper alignment */
 }
 
 .team-member-position {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0;
   font-size: 1.125rem;
   color: #4a5568;
+  text-align: center;
 }
 
 .team-member-batch {
-  margin-top: .25rem;
+  margin-top: 0.25rem;
   margin-bottom: 0;
   font-size: 0.875rem;
   color: #718096;
+  text-align: center;
 }
 
 /* Divider line */
 .card-divider {
   width: 100%;
   height: 1px;
-  margin-top:.5rem;
-  margin-bottom:.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: #0b0b0b;
-  
 }
 
 /* Button styling for email */
@@ -101,15 +104,67 @@
   font-size: 1rem;
 }
 
+/* Responsive design adjustments */
+
+/* Small devices (max-width: 768px) */
 @media (max-width: 768px) {
   .team-member-card {
-    width: 100%;
+    width: 60%; /* Full width with padding on smaller screens */
     height: auto;
-    margin: 1rem;
+    margin: 1rem auto;
+    padding: 1rem; /* Reduce padding */
   }
 
   .team-member-image {
     width: 8rem;
     height: 8rem;
+  }
+
+  .team-member-name {
+    font-size: 1.25rem;
+  }
+
+  .team-member-position {
+    font-size: 1rem;
+  }
+
+  .team-member-batch {
+    font-size: 0.75rem;
+    margin-bottom: -5px;
+  }
+
+  .team-member-email-btn {
+    padding: 0.4rem 2rem;
+  }
+}
+
+/* Extra-small devices (max-width: 576px) */
+@media (max-width: 576px) {
+  .team-member-card {
+    width: 100%;
+    margin: 0.5rem auto;
+    padding: 0.8rem;
+  }
+
+  .team-member-image {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .team-member-name {
+    font-size: 1rem;
+  }
+
+  .team-member-position {
+    font-size: 0.9rem;
+  }
+
+  .team-member-batch {
+    font-size: 0.75rem;
+  }
+
+  .team-member-email-btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
   }
 }
