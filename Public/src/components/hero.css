@@ -1,3 +1,4 @@
+/* Base styles for the hero carousel container */
 .hero-carousel-container {
   position: relative;
   overflow: hidden;
@@ -8,38 +9,103 @@
   align-items: center;
 }
 
+/* Inner carousel styles */
 .hero-carousel-inner {
   display: flex;
   transition: transform 0.5s ease-in-out;
   width: 80%;
   max-width: 700px;
-  border-radius: 0; 
+  border-radius: 0;
 }
 
+/* Carousel item styles */
 .hero-carousel-item {
   flex: 0 0 100%;
   height: 100%;
   margin-left: 20px;
   margin-right: 20px;
-  position: relative; 
+  position: relative;
 }
 
 .hero-carousel-item img {
   width: 100%;
   height: 80%;
   object-fit: cover;
-  border-radius: 15px; 
-  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; 
-  /* box-shadow: 0 0 20px rgb(248, 2, 240); */
+  border-radius: 15px;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .hero-carousel-item img:hover {
-  box-shadow: 0 0 50px rgb(248, 2, 240); 
-  transform: scale(1.07); 
+  box-shadow: 0 0 50px rgb(248, 2, 240);
+  transform: scale(1.07);
 }
 
+/* Text inside carousel */
 p {
   color: #fff;
   text-align: center;
   font-size: 16px;
+}
+
+/* Responsive adjustments */
+
+/* Medium screens (Tablets and small laptops) */
+@media (max-width: 1024px) {
+  .hero-carousel-container {
+    height: 400px; /* Adjust height for medium screens */
+  }
+
+  .hero-carousel-inner {
+    width: 90%; /* Slightly wider for medium screens */
+  }
+
+  .hero-carousel-item img {
+    height: 75%; /* Adjust image height for better proportion */
+  }
+
+  p {
+    font-size: 14px; /* Reduce font size */
+  }
+}
+
+/* Small screens (Smartphones and small tablets) */
+@media (max-width: 768px) {
+  .hero-carousel-container {
+    height: 350px; /* Reduce height further */
+  }
+
+  .hero-carousel-inner {
+    width: 100%; /* Full width for small screens */
+    max-width: none;
+  }
+
+  .hero-carousel-item {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .hero-carousel-item img {
+    height: 70%; /* Adjust image height */
+  }
+
+  p {
+    font-size: 13px; /* Smaller text for readability */
+  }
+}
+
+/* Extra small screens (Very compact smartphones) */
+@media (max-width: 576px) {
+  .hero-carousel-container {
+    height: 300px; /* Compact height */
+  }
+
+  .hero-carousel-item img {
+    height: 65%; /* Further reduce image height */
+    border-radius: 10px; /* Softer corners for small screens */
+  }
+
+  p {
+    font-size: 12px; /* Smaller font for text */
+    padding: 0 10px; /* Add some padding for better alignment */
+  }
 }

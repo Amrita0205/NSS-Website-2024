@@ -20,6 +20,11 @@ import NssPage from './components/NssPage';
 import HoursPortal from './components/HoursPortal';
 import {BigCard} from './components/Bigcard';
 import CheckAttendance from './components/CheckAttendance';
+import EventDetail1 from './components/EventDetail1';
+import EventDetail2 from './components/EventDetail2';
+import EventDetail3 from './components/EventDetail3';
+import EventDetail4 from './components/EventDetail4';
+
 
 
 
@@ -47,6 +52,10 @@ const Root = () => {
         <Route path="/hoursportal" element={<HoursPortal />} />
         <Route path="/bigcard" element={<BigCard />} />
         <Route path="/checkattendance" element={<CheckAttendance />} />
+        <Route path="/event1" element={<EventDetail1 />} />
+        <Route path="/event2" element={<EventDetail2 />} />
+        <Route path="/event3" element={<EventDetail3 />} />
+        <Route path="/event4" element={<EventDetail4 />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
