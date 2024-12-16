@@ -1,40 +1,54 @@
-from marshmallow import Schema, fields, validate, ValidationError, post_dump
-from datetime import datetime
+# app/schemas/student_participation_schema.py
+from marshmallow import Schema, fields, validates, ValidationError
 from bson import ObjectId
-
+from app.utils.extensions import mongo
+from datetime import datetime
 class ObjectIdField(fields.Field):
-    """Custom ObjectId field for marshmallow"""
     def _serialize(self, value, attr, obj, **kwargs):
-        if not value:
-            return None
-        return str(value)  # Convert ObjectId to string
+        return str(value) if value else None
 
     def _deserialize(self, value, attr, data, **kwargs):
         try:
-            return ObjectId(value)  # Convert string to ObjectId
+            return ObjectId(value)
         except Exception:
             raise ValidationError("Invalid ObjectId.")
 
+class StudentParticipationSchema(Schema):
+    _id = ObjectIdField(dump_only=True)
+    student_id = ObjectIdField(
+        required=True, 
+        error_messages={"required": "Student ID is required."}
+    )
+    event_id = ObjectIdField(
+        required=True, 
+        error_messages={"required": "Event ID is required."}
+    )
+    category_id = ObjectIdField(
+        required=True, 
+        error_messages={"required": "Category ID is required."}
+    )
+    hours = fields.Int(
+        dump_only=True,  # The hours will be fetched from the event
+    )
+    created_at = fields.DateTime(
+        dump_only=True,
+        default=datetime.utcnow
+    )
 
+    @validates("student_id")
+    def validate_student_id(self, value):
+        student = mongo.db.users.find_one({"_id": value})
+        if not student:
+            raise ValidationError("Invalid Student ID. No matching student found.")
 
-class ParticipationSchema(Schema):
-    _id = ObjectIdField(dump_only=True)  # MongoDB ObjectId for the record
-    student_id = ObjectIdField(required=True, error_messages={"required": "Student ID is required."})  # Reference to Users Collection
-    event_id = ObjectIdField(required=True, error_messages={"required": "Event ID is required."})  # Reference to Events Collection
-    category_id = ObjectIdField(required=True, error_messages={"required": "Category ID is required."})  # Reference to Category Collection
-    hours = fields.Float(required=True, validate=validate.Range(min=0), error_messages={"required": "Hours are required."})
-    created_at = fields.DateTime(dump_only=True, default=datetime.utcnow)
+    @validates("event_id")
+    def validate_event_id(self, value):
+        event = mongo.db.events.find_one({"_id": value})
+        if not event:
+            raise ValidationError("Invalid Event ID. No matching event found.")
 
-    @post_dump
-    def convert_fields(self, data, many=False):
-        """Helper method to convert ObjectId and datetime fields."""
-        if "_id" in data:
-            data["_id"] = str(data["_id"])
-        for field in ["student_id", "event_id", "category_id"]:
-            if field in data:
-                data[field] = str(data[field])
-        if "created_at" in data and isinstance(data["created_at"], datetime):
-            data["created_at"] = data["created_at"].isoformat()
-        return data
-
-participation_schema = ParticipationSchema()
+    @validates("category_id")
+    def validate_category_id(self, value):
+        category = mongo.db.categories.find_one({"_id": value})
+        if not category:
+            raise ValidationError("Invalid Category ID. No matching category found.")

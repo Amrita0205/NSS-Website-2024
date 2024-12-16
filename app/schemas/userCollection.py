@@ -1,6 +1,7 @@
 from marshmallow import Schema, fields, validate, ValidationError, post_dump
 from bson import ObjectId
 from datetime import datetime, date
+import re
 
 # Custom ObjectId field for Marshmallow
 class ObjectIdField(fields.Field):
@@ -28,6 +29,8 @@ class UserSchema(Schema):
     created_at = fields.DateTime(dump_only=True)
     last_updated = fields.DateTime(dump_only=True)
     active = fields.Boolean(required=True, error_messages={"required": "Active status is required."})
+    batch = fields.String(dump_only=True)
+    branch = fields.String(dump_only=True)
 
     @post_dump
     def convert_objectid_and_dates(self, data, many=False):
@@ -49,3 +52,39 @@ class UserSchema(Schema):
         for date_field in ["created_at", "last_updated"]:
             if isinstance(data.get(date_field), (datetime, date)):
                 data[date_field] = data[date_field].isoformat()
+
+        # Adding batch and branch calculation
+        if "roll_number" in data:
+            roll_number = data["roll_number"]
+            batch, branch = self.extract_batch_and_branch(roll_number)
+            data["batch"] = batch
+            data["branch"] = branch
+
+        return data
+
+    def extract_batch_and_branch(self, roll_number):
+        """
+        Extract batch and branch from the roll number.
+        Example: CS23B1006 -> Batch: 2023, Branch: CSE
+        """
+        # Roll number format: XX2YB1LLL
+        # Example: CS23B1006 -> Department: CSE, Batch: 2023
+        match = re.match(r"([A-Za-z]{2})(\d{2})([A-Za-z]{2})(\d{4})", roll_number)
+        if match:
+            branch_code = match.group(1)
+            batch = "20" + match.group(2)  # Extract batch year, e.g., "23" becomes "2023"
+            branch = self.map_branch_code_to_full_name(branch_code)
+            return batch, branch
+        raise ValidationError("Invalid roll number format.")
+
+    def map_branch_code_to_full_name(self, branch_code):
+        """
+        Map the branch code to the full branch name.
+        """
+        branch_mapping = {
+            "CS": "CSE",  # Computer Science
+            "AD": "AIDS",  # Artificial Intelligence and Data Science
+            "MN": "MNC",  # Mathematics and Computer Science
+            # Add more mappings as needed
+        }
+        return branch_mapping.get(branch_code, "Unknown")

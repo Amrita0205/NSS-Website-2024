@@ -1,15 +1,15 @@
 from flask import request, jsonify, Blueprint, abort
 from bson.objectid import ObjectId
+from datetime import datetime
 from app import mongo
 from app.utils.middleware import check_permission
 from app.models.admin import Role
 from app.utils.config import Config
-from datetime import datetime
 
 student_bp = Blueprint('student', __name__)
 
 # Get all students
-# @student_bp.route('/all', methods=['GET'])
+@student_bp.route('/all', methods=['GET'])
 def get_all_students():
     try:
         students = mongo.db.users.find({"role": "student", "active": True})
@@ -32,7 +32,7 @@ def get_all_students():
         }), 500
 
 # Add a new student
-# @student_bp.route('/add', methods=['POST'])
+@student_bp.route('/add', methods=['POST'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def add_student():
     try:
@@ -60,7 +60,7 @@ def add_student():
         }), 500
 
 # Get a specific student by ID
-# @student_bp.route('/id/<student_id>', methods=['GET'])
+@student_bp.route('/id/<student_id>', methods=['GET'])
 def get_student(student_id):
     try:
         student = mongo.db.users.find_one({"_id": ObjectId(student_id), "role": "student", "active": True})
@@ -85,7 +85,7 @@ def get_student(student_id):
         }), 500
 
 # Update a specific student
-# @student_bp.route('/update/<student_id>', methods=['PUT'])
+@student_bp.route('/update/<student_id>', methods=['PUT'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def update_student(student_id):
     try:
@@ -108,7 +108,7 @@ def update_student(student_id):
         }), 500
 
 # Soft delete a specific student
-# @student_bp.route('/delete/<student_id>', methods=['DELETE'])
+@student_bp.route('/delete/<student_id>', methods=['DELETE'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def delete_student(student_id):
     try:

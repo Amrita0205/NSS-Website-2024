@@ -6,6 +6,8 @@ from app.controllers.announcements_controller import announcement_blueprint
 from app.controllers.team_controller import team_blueprint  
 from app.routes.admin_routes import admin_bp
 from app.routes.studentRoute import student_bp
+from app.routes.studentParticipation_routes import student_participation_bp
+from app.routes.category_routes import category_bp
 import json
 
 app = Flask(__name__)
@@ -20,6 +22,8 @@ app.register_blueprint(event_blueprint, url_prefix='/api/v1/event')
 app.register_blueprint(announcement_blueprint, url_prefix='/api/v1/announcement')
 app.register_blueprint(team_blueprint, url_prefix='/api/v1/team') 
 app.register_blueprint(student_bp, url_prefix='/api/v1/student')
+app.register_blueprint(student_participation_bp, url_prefix='/api/v1/student_participation')
+app.register_blueprint(category_bp, url_prefix='/api/v1/category')
 
 @app.route('/')
 def home():

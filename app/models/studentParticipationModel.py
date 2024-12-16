@@ -1,56 +1,113 @@
-from app.utils.extensions import db
+from app.utils.extensions import mongo
+from bson import ObjectId
 from datetime import datetime
 
-class Participation:
-    collection = db['participations']  # Replace 'participations' with your MongoDB collection name
-
+class StudentParticipation:
     @staticmethod
     def create_participation(data):
-        """
-        Add a new participation entry to the database.
-        """
-        data['created_at'] = datetime.utcnow()
-        data['last_updated'] = datetime.utcnow()
-        result = Participation.collection.insert_one(data)
-        return {"inserted_id": str(result.inserted_id)}
+        if isinstance(data, list):
+            # Handle multiple participation records at once
+            for participation in data:
+                participation['created_at'] = datetime.utcnow().isoformat()
+                # Fetch event details and auto-fill the hours
+                event = mongo.db.events.find_one({"_id": ObjectId(participation['event_id'])})
+                if event:
+                    participation['hours'] = event.get('total_hours', 0)  # Assuming total_hours stores the event's hours
+
+            result = mongo.db.student_participation.insert_many(data)
+            return {"inserted_ids": [str(id) for id in result.inserted_ids]}
+
+        elif isinstance(data, dict):
+            # Handle a single participation record
+            data['created_at'] = datetime.utcnow().isoformat()
+            # Fetch event details and auto-fill the hours
+            event = mongo.db.events.find_one({"_id": ObjectId(data['event_id'])})
+            if event:
+                data['hours'] = event.get('total_hours', 0)  # Assuming total_hours stores the event's hours
+
+            result = mongo.db.student_participation.insert_one(data)
+            return {"inserted_id": str(result.inserted_id)}
+
+        else:
+            raise ValueError("Input data must be a dictionary or a list of dictionaries.")
 
     @staticmethod
-    def find_participation(query):
-        """
-        Retrieve a single participation entry based on the query.
-        """
-        participation = Participation.collection.find_one(query)
-        if participation:
-            participation["_id"] = str(participation["_id"])
-            if isinstance(participation.get("created_at"), datetime):
-                participation["created_at"] = participation["created_at"].isoformat()
-            if isinstance(participation.get("last_updated"), datetime):
-                participation["last_updated"] = participation["last_updated"].isoformat()
-        return participation
+    def get_participations():
+        participations = mongo.db.student_participation.find()
+        result = []
+        for participation in participations:
+            participation['_id'] = str(participation['_id'])
+            participation['student_id'] = str(participation['student_id'])
+            participation['event_id'] = str(participation['event_id'])
+            participation['category_id'] = str(participation['category_id'])
+            result.append(participation)
+        return result
 
     @staticmethod
-    def update_participation(query, new_data):
-        """
-        Update a participation entry's details based on the query.
-        """
-        new_data['last_updated'] = datetime.utcnow()
-        result = Participation.collection.update_one(query, {"$set": new_data})
-        return {"modified_count": result.modified_count}
+    def get_participation_by_student(student_id):
+        participations = mongo.db.student_participation.find({"student_id": ObjectId(student_id)})
+        result = []
+        for participation in participations:
+            participation['_id'] = str(participation['_id'])
+            participation['student_id'] = str(participation['student_id'])
+            participation['event_id'] = str(participation['event_id'])
+            participation['category_id'] = str(participation['category_id'])
+            result.append(participation)
+        return result
 
     @staticmethod
-    def delete_participation(query):
-        """
-        Delete a participation entry from the database.
-        """
-        result = Participation.collection.delete_one(query)
+    def update_participation(participation_updates):
+        updated_ids = []
+        for update in participation_updates:
+            participation_id = update.get("participation_id")
+            data = update.get("data", {})
+            result = mongo.db.student_participation.update_one(
+                {"_id": ObjectId(participation_id)}, {"$set": data}
+            )
+            if result.modified_count > 0:
+                updated_ids.append(str(participation_id))
+        return {"updated_ids": updated_ids}
+
+    @staticmethod
+    def delete_participation(participation_ids):
+        object_ids = [ObjectId(id) for id in participation_ids]
+        result = mongo.db.student_participation.delete_many({"_id": {"$in": object_ids}})
         return {"deleted_count": result.deleted_count}
 
     @staticmethod
-    def get_all_participations():
-        """
-        Retrieve all participations from the database.
-        """
-        participations = list(Participation.collection.find({}, {"_id": 1, "event_name": 1, "user_id": 1}))
+    def calculate_total_hours(event_id):
+        # Fetch event details and calculate total hours for all participants
+        event = mongo.db.events.find_one({"_id": ObjectId(event_id)})
+        total_hours = event['total_hours'] if event else 0
+
+        # Fetch all participation records for the event
+        participations = mongo.db.student_participation.find({"event_id": ObjectId(event_id)})
+
+        total_participation_hours = 0
         for participation in participations:
-            participation["_id"] = str(participation["_id"])
-        return participations
+            total_participation_hours += participation['hours']
+
+        return total_participation_hours
+    @staticmethod
+    def get_participations_by_event(event_id):
+        participations = mongo.db.student_participation.find({"event_id": ObjectId(event_id)})
+        result = []
+        for participation in participations:
+            participation['_id'] = str(participation['_id'])
+            participation['student_id'] = str(participation['student_id'])
+            participation['event_id'] = str(participation['event_id'])
+            participation['category_id'] = str(participation['category_id'])
+            result.append(participation)
+        return result
+
+    @staticmethod
+    def get_participations_by_category(category_id):
+                participations = mongo.db.student_participation.find({"category_id": ObjectId(category_id)})
+                result = []
+                for participation in participations:
+                    participation['_id'] = str(participation['_id'])
+                    participation['student_id'] = str(participation['student_id'])
+                    participation['event_id'] = str(participation['event_id'])
+                    participation['category_id'] = str(participation['category_id'])
+                    result.append(participation)
+                return result
