@@ -1,5 +1,11 @@
 from flask import Flask
+<<<<<<< HEAD
 from app.utils.extensions import mongo, cors
+=======
+from app.utils.extensions import mongo,cors
+# import certifi
+# from app.routes.user_routes import user_blueprint
+>>>>>>> e2ffaaca132a8e9540896218350ee5387398b6cd
 from app.routes.admin_routes import admin_bp
 from app.routes.user_routes import user_bp 
 from app.routes.studentRoute import student_bp

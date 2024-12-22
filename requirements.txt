@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> e2ffaaca132a8e9540896218350ee5387398b6cd
 Flask
 Flask-PyMongo
 Flask-Cors
@@ -9,4 +12,7 @@ jwt
 python-dotenv
 bcrypt
 pydantic[email]
+<<<<<<< HEAD
 
+=======
+>>>>>>> e2ffaaca132a8e9540896218350ee5387398b6cd

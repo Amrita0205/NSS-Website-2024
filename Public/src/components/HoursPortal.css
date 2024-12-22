@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    font-family: "Arial", sans-serif;
+    position: relative;
+  }
+ 
+  .hours-portal {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    margin-top: 30px;
+  }
+  
+  .hours-portal-container {
+    font-family: "Arial", sans-serif;
+    max-width: 2000px;
+    width: 80%;
+  color: #333;
+    min-height: 600px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9); /* Slight transparency for the white box */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(110, 2, 226, 0.579);
+    position: relative;
+    z-index: 1; /* Keep it above the background */
+  }
+  
+  /* Rest of your CSS remains unchanged */
+  
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+  }
+  
+  .profile-header p {
+    margin: 5px 0 0;
+    color: #777;
+  }
+  
+  .hours-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .summary-card {
+    flex: 1;
+    margin: 0 10px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(18, 18, 18, 0.79);
+    text-align: center;
+  }
+  
+  .summary-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  .summary-card p {
+    font-size: 1.5em;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .activities-list {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .activities-list h2 {
+    margin: 0 0 15px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .activities-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .activities-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .activities-list li span {
+    color: #555;
+  }
+  
+  .activities-list li span:first-child {
+    font-weight: bold;
+  }
+  
+  @media (max-width: 600px) {
+    .hours-summary {
+      flex-direction: column;
+    }
+  
+    .summary-card {
+      margin: 10px 0;
+    }
+  }
+  

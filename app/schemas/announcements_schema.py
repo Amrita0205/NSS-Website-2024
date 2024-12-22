@@ -3,7 +3,7 @@ from datetime import datetime
 from bson import ObjectId
 
 class ObjectIdField(fields.Field):
-    """Custom ObjectId field for marshmallow"""
+    """Custom ObjectId field for marshmallow"""         
     def _serialize(self, value, attr, obj, **kwargs):
         if not value:
             return None

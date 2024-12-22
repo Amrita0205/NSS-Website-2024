@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from app.models.events import Event
 from app.schemas.event_schema import EventSchema
 import jwt
+from app.utils.middleware import check_permission
+from app.models.admin import Admin, AdminModel, Role
 from marshmallow.exceptions import ValidationError
 from datetime import datetime, date
 import os
@@ -10,28 +12,28 @@ event_blueprint = Blueprint('events', __name__)
 
 event_schema = EventSchema()
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
+# SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
 
-def admin_required(f):
-    def wrapper(*args, **kwargs):
-        token = request.headers.get("Authorization")
-        if not token:
-            return jsonify({"error": "Token is missing"}), 403
+# def admin_required(f):
+#     def wrapper(*args, **kwargs):
+#         token = request.headers.get("Authorization")
+#         if not token:
+#             return jsonify({"error": "Token is missing"}), 403
 
-        try:
-            # Extract JWT token from "Bearer <token>"
-            token = token.split(" ")[1]
-            decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            request.admin = decoded["username"]  # Store admin username in the request object
-        except jwt.ExpiredSignatureError:
-            return jsonify({"error": "Token has expired"}), 401
-        except jwt.InvalidTokenError:
-            return jsonify({"error": "Invalid token"}), 401
+#         try:
+#             # Extract JWT token from "Bearer <token>"
+#             token = token.split(" ")[1]
+#             decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+#             request.admin = decoded["username"]  # Store admin username in the request object
+#         except jwt.ExpiredSignatureError:
+#             return jsonify({"error": "Token has expired"}), 401
+#         except jwt.InvalidTokenError:
+#             return jsonify({"error": "Invalid token"}), 401
 
-        return f(*args, **kwargs)
+#         return f(*args, **kwargs)
 
-    wrapper.__name__ = f.__name__
-    return wrapper
+#     wrapper.__name__ = f.__name__
+#     return wrapper
 
 # for check
 # def admin_required(f):
@@ -43,8 +45,8 @@ def admin_required(f):
 #     wrapper.__name__ = f.__name__
 #     return wrapper
 
-@event_blueprint.route('/events/create', methods=['POST'])
-@admin_required
+@event_blueprint.route('/create', methods=['POST'])
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def create_event():
     try:
         data = request.json
@@ -60,7 +62,7 @@ def create_event():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@event_blueprint.route('/events', methods=['GET'])
+@event_blueprint.route('/all', methods=['GET'])
 def get_events():
     try:
         events = Event.get_events()
@@ -74,7 +76,7 @@ def get_events():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@event_blueprint.route('/events/<event_id>', methods=['GET'])
+@event_blueprint.route('/id/<event_id>', methods=['GET'])
 def get_event_by_id(event_id):
     try:
         event = Event.get_event_by_id(event_id)
@@ -89,8 +91,8 @@ def get_event_by_id(event_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@event_blueprint.route('/events/update', methods=['PUT'])
-@admin_required
+@event_blueprint.route('/update', methods=['PUT'])
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def update_events():
     try:
         event_updates = request.json 
@@ -99,8 +101,8 @@ def update_events():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@event_blueprint.route('/events/delete', methods=['DELETE'])
-@admin_required
+@event_blueprint.route('/delete', methods=['DELETE'])
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def delete_events():
     try:
         event_ids = request.json.get("event_ids")  

@@ -227,7 +227,7 @@ def login():
         }, Config.SECRET_KEY, algorithm="HS256")
         
         # Set token in cookie
-        response = make_response(jsonify({"message": "Login successful"}))
+        response = make_response(jsonify({"message": "Login successful", "token": token}))
         response.set_cookie("token", token, httponly=True)
         return response, 200
     except ValueError as e:

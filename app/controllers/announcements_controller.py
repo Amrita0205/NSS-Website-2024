@@ -3,6 +3,9 @@ from app.models.announcements import Announcement
 from app.schemas.announcements_schema import AnnouncementSchema
 from marshmallow.exceptions import ValidationError
 from datetime import datetime
+from app.utils.middleware import check_permission
+from app.models.admin import Admin, AdminModel, Role
+from app.utils.config import Config
 import jwt
 import os
 
@@ -10,41 +13,8 @@ announcement_blueprint = Blueprint('announcements', __name__)
 
 announcement_schema = AnnouncementSchema()
 
-# Middleware to ensure the admin is authenticated
-# def admin_required(f):
-#     def wrapper(*args, **kwargs):
-#         admin_password = request.headers.get("Admin-Password")
-#         if admin_password != "your_admin_password":  # Replace with secure password storage
-#             return jsonify({"error": "Unauthorized"}), 403
-#         return f(*args, **kwargs)
-#     wrapper.__name__ = f.__name__
-#     return wrapper
-
-SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
-
-def admin_required(f):
-    def wrapper(*args, **kwargs):
-        token = request.headers.get("Authorization")
-        if not token:
-            return jsonify({"error": "Token is missing"}), 403
-
-        try:
-            # Extract JWT token from "Bearer <token>"
-            token = token.split(" ")[1]
-            decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            request.admin = decoded["username"]  # Store admin username in the request object
-        except jwt.ExpiredSignatureError:
-            return jsonify({"error": "Token has expired"}), 401
-        except jwt.InvalidTokenError:
-            return jsonify({"error": "Invalid token"}), 401
-
-        return f(*args, **kwargs)
-
-    wrapper.__name__ = f.__name__
-    return wrapper
-
 @announcement_blueprint.route('/announcements/create', methods=['POST'])
-@admin_required
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def create_announcements():
     try:
         data = request.json
@@ -83,7 +53,7 @@ def get_announcement_by_id(announcement_id):
         return jsonify({"error": str(e)}), 500
 
 @announcement_blueprint.route('/announcements/update', methods=['PUT'])
-@admin_required
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def update_announcements():
     try:
         announcement_updates = request.json
@@ -110,8 +80,8 @@ def update_announcements():
         return jsonify({"error": str(e)}), 500
 
 
-@announcement_blueprint.route('/announcements/delete', methods=['DELETE'])
-@admin_required
+@announcement_blueprint.route('/delete', methods=['DELETE'])
+@check_permission([Role.FACULTY, Role.SECRETARY])
 def delete_announcements():
     try:
         announcement_ids = request.json.get("announcement_ids")

@@ -1,21 +1,22 @@
 import React from 'react';
+import './EventCard.css'
 
 const EventCard = ({ event, onEdit, onDelete }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-4 m-2 w-80 border border-black">
-      <h2 className="text-lg font-bold">{event.title}</h2>
-      <p className="text-sm text-gray-600">Date: {event.date}</p>
-      <p className="text-sm text-gray-600">Venue: {event.venue}</p>
-      <p className="mt-2">{event.description}</p>
-      <div className="flex justify-end mt-4">
+    <div className="event-card">
+      <h2 className="event-title">{event.title}</h2>
+      <p className="event-details">Date: {event.date}</p>
+      <p className="event-details">Venue: {event.venue}</p>
+      <p className="event-description">{event.description}</p>
+      <div className="event-actions">
         <button
-          className="bg-yellow-500 px-4 py-1 rounded mr-2"
+          className="edit-btn"
           onClick={() => onEdit(event)}
         >
           Edit
         </button>
         <button
-          className="bg-red-500 px-4 py-1 rounded"
+          className="delete-btn"
           onClick={() => onDelete(event.id)}
         >
           Delete

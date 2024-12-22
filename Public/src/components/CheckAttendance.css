@@ -1,0 +1,116 @@
+/* General styles for the CheckAttendance component */
+.check-attendance {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Header Section */
+  .check-attendance .header-section {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 40px;
+  }
+  
+  .check-attendance .header-section h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .check-attendance .header-section p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+  
+  /* Content Section */
+  .check-attendance .content-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* Event Selector */
+  .check-attendance .event-selector {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .check-attendance .event-selector label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .check-attendance .event-selector select {
+    width: 250px;
+    padding: 10px;
+    border: 2px solid #666;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .check-attendance .event-selector select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px #007bff;
+    outline: none;
+  }
+  
+  /* No Attendees Message */
+  .check-attendance .no-attendees {
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Attendees Table */
+  .check-attendance .attendees-table {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .check-attendance .attendees-table h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .check-attendance .attendees-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .check-attendance .attendees-table th,
+  .check-attendance .attendees-table td {
+    text-align: left;
+    font-size: 1rem;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .check-attendance .attendees-table th {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .check-attendance .attendees-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  

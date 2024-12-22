@@ -1,29 +1,33 @@
-/* navbar.css */
 .navbar-container {
-  width: 100%; 
+  width: 100%;
   background: linear-gradient(90deg, #4b6cb7, #182848);
   color: #ffffff;
   font-family: 'Roboto', sans-serif;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 999; 
+  z-index: 999;
+  height: 60px; 
 }
-
 
 .navbar-navbar-interactive {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem; 
   position: relative;
-  width: 100%; 
+  width: 100%;
 }
 
+.navbar-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
 
 .navbar-image1 {
-  height: 50px;
+  height: 40px; 
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
@@ -32,28 +36,45 @@
   transform: scale(1.1); 
 }
 
+.navbar-logo-text {
+  font-size: 18px; 
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase; 
+  letter-spacing: 1px; 
+  margin-top: -5px;
+  /* margin-bottom: 10px; */
+}
 
 .navbar-desktop-menu {
   display: flex;
   align-items: center;
-  width: 100%; 
+  width: 100%;
 }
 
 .navbar-links1 {
   display: flex;
   gap: 1.5rem;
-  width: 100%; 
   justify-content: flex-end;
+  width: 100%;
+  list-style: none;
+  padding: 0;
 }
 
 .thq-link {
   cursor: pointer;
-  color: #ffffff;
+  color: #ffffff !important; 
   text-transform: uppercase;
   font-weight: bold;
   position: relative;
-  overflow: hidden;
   padding: 5px 0;
+  transition: color 0.3s ease, padding-bottom 0.3s ease; 
+  text-decoration: none;
+}
+
+.thq-link:hover {
+  color: #ffcc00;
+  padding-bottom: 5px;
 }
 
 .thq-link::after {
@@ -79,73 +100,134 @@
 }
 
 .navbar-action11 {
-  background: #ffcc00;
-  color: #182848;
+  background: #f4c50b;
+  color: #ffffff !important;
   border: none;
-  padding: 0.7rem 1.5rem;
+  padding: 8px 30px;
   border-radius: 30px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 30px !important;
+  min-width: 200px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
 .navbar-action11:hover {
   background: #ffffff;
-  color: #182848;
+  color: #0255fa;
   transform: translateY(-2px);
 }
 
 
-.navbar-mobile-menu {
+
+/* Mobile Menu Styles */
+.navbar-mobile-menu-icon {
   display: none;
-}
-
-
-.navbar-logo {
-  height: 40px;
-}
-
-.navbar-close-menu {
+  flex-direction: column;
+  gap: 5px;
   cursor: pointer;
 }
 
-/* Mobile Links */
+.navbar-mobile-menu-icon-bar {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+}
+
+.navbar-mobile-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  background-color: #4b6cb7;
+  width: 250px;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.navbar-mobile-menu .navbar-close-menu {
+  cursor: pointer;
+  font-size: 30px;
+  color: #fff;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
 .navbar-links2 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.navbar-links2 .thq-link {
-  text-align: center;
+.navbar-mobile-menu.open {
+  display: flex;
+}
+
+
+.navbar-dropdown {
+  position: relative;
+}
+
+.navbar-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgb(3, 3, 3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 130px;
+}
+
+.navbar-dropdown:hover .navbar-dropdown-menu {
+  display: block;
+}
+
+.navbar-dropdown-menu li {
+  padding: 8px ;
+}
+
+.navbar-dropdown-menu li a {
+  text-decoration: none;
+  color: rgb(255, 253, 253);
+}
+
+.navbar-dropdown-menu li a:hover {
+  background-color: #090909;
+  color:#00aeff
+}
+
+
+.navbar-mobile-menu .navbar-dropdown-menu {
+  display: block;
+  background-color: rgb(12, 12, 12);
+  padding: 10px;
+}
+
+.navbar-mobile-menu .navbar-dropdown-menu li {
+  padding: 8px 0;
 }
 
 
 @media (max-width: 768px) {
   .navbar-desktop-menu {
-    display: none; 
+    display: none;
   }
 
-  .navbar-mobile-menu {
-    display: block; 
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 20px;
-    background-color: #4b6cb7; 
-    width: 250px;
-    height: 100vh; 
-    z-index: 1000; 
-  }
-
-  .navbar-navbar-interactive {
-    padding: 1rem;
-  }
-
-  .navbar-links2 {
+  .navbar-mobile-menu-icon {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
   }
 
   .navbar-links2 .thq-link {
@@ -155,6 +237,6 @@
   }
 
   .navbar-action11 {
-    margin-top: 20px; 
+    margin-top: 20px;
   }
 }

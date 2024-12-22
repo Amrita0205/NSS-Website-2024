@@ -135,3 +135,4 @@ class StudentDetailAPI(MethodView):
                 "error": "Internal Server Error",
                 "message": f"An error occurred: {str(e)}"
             }), 500
+
