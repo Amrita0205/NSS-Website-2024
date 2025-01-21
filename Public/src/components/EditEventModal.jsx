@@ -46,7 +46,7 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             className="input-field"
             required
           />
-          <input
+          {/* <input
             type="text"
             name="venue"
             placeholder="Venue"
@@ -54,7 +54,7 @@ const EditEventModal = ({ isOpen, onClose, event, onUpdate }) => {
             onChange={handleChange}
             className="input-field"
             required
-          />
+          /> */}
           <textarea
             name="description"
             placeholder="Description"

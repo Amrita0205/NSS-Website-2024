@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import EventCard from '../components/EventCard';
 import AddEventModal from '../components/AddEventModal';
 import EditEventModal from '../components/EditEventModal';
@@ -7,31 +8,61 @@ import Footer from '../components/footer';
 import Navbar from '../components/navbar';
 import './ManageEvents.css';
 
+const API_URL = 'http://localhost:5000/api/v1/event'; // Replace with your Flask API base URL
+
 const ManageEvents = () => {
-  const [events, setEvents] = useState([
-    { id: 1, title: 'Cleanliness drive', date: '2024-12-15', venue: 'Acad', description: 'To clean' },
-    { id: 2, title: 'Poster making', date: '2024-12-20', venue: 'Music room', description: 'To make poster' }
-  ]);
+  const [events, setEvents] = useState([]);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const handleAddEvent = (newEvent) => {
-    setEvents([...events, { ...newEvent, id: Date.now() }]); // Adding unique id
-    setAddModalOpen(false);
+  // Fetch events on component mount
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/all`);
+      setEvents(response.data.events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
   };
 
-  const handleUpdateEvent = (updatedEvent) => {
-    setEvents(events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)));
-    setEditModalOpen(false);
-    setSelectedEvent(null);
+  const handleAddEvent = async (newEvent) => {
+    try {
+      await axios.post(`${API_URL}/create`, newEvent);
+      fetchEvents(); // Refresh the events list
+      setAddModalOpen(false);
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
   };
 
-  const handleDeleteEvent = () => {
-    setEvents(events.filter((event) => event.id !== selectedEvent.id));
-    setDeleteModalOpen(false);
-    setSelectedEvent(null);
+  const handleUpdateEvent = async (updatedEvent) => {
+    try {
+      await axios.put(`${API_URL}/update`, updatedEvent);
+      fetchEvents(); // Refresh the events list
+      setEditModalOpen(false);
+      setSelectedEvent(null);
+    } catch (error) {
+      console.error('Error updating event:', error);
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    try {
+      await axios.delete(`${API_URL}/delete`, {
+        data: { event_ids: [selectedEvent.id] },
+      });
+      fetchEvents(); // Refresh the events list
+      setDeleteModalOpen(false);
+      setSelectedEvent(null);
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
   };
 
   return (
@@ -43,10 +74,7 @@ const ManageEvents = () => {
       </div>
 
       <div className="add-event-button-container">
-        <button
-          className="add-event-button"
-          onClick={() => setAddModalOpen(true)}
-        >
+        <button className="add-event-button" onClick={() => setAddModalOpen(true)}>
           <span className="add-event-text">Add Event</span>
         </button>
       </div>
@@ -56,7 +84,7 @@ const ManageEvents = () => {
           {events.length > 0 ? (
             events.map((event) => (
               <EventCard
-                key={event.id}
+                key={event._id}
                 event={event}
                 onEdit={() => {
                   setSelectedEvent(event);
@@ -75,11 +103,7 @@ const ManageEvents = () => {
           )}
         </div>
 
-        <AddEventModal
-          isOpen={isAddModalOpen}
-          onClose={() => setAddModalOpen(false)}
-          onAdd={handleAddEvent}
-        />
+        <AddEventModal isOpen={isAddModalOpen} onClose={() => setAddModalOpen(false)} onAdd={handleAddEvent} />
 
         {selectedEvent && (
           <EditEventModal

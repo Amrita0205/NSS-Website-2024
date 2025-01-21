@@ -49,7 +49,7 @@ class Category:
         """
         Retrieve all categories from the database.
         """
-        categories = list(mongo.db.categories.find({}, {"_id": 1, "name": 1, "description": 1}))
+        categories = list(mongo.db.categories.find({}, {"_id": 1, "name": 1, "description": 1, "min_hours": 1}))
         for category in categories:
             category["_id"] = str(category["_id"])
         return categories

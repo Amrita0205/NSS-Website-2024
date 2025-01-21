@@ -13,7 +13,7 @@ announcement_blueprint = Blueprint('announcements', __name__)
 
 announcement_schema = AnnouncementSchema()
 
-@announcement_blueprint.route('/announcements/create', methods=['POST'])
+@announcement_blueprint.route('/create', methods=['POST'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def create_announcements():
     try:
@@ -34,7 +34,7 @@ def create_announcements():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@announcement_blueprint.route('/announcements', methods=['GET'])
+@announcement_blueprint.route('/all', methods=['GET'])
 def get_announcements():
     try:
         announcements = Announcement.get_announcements()
@@ -42,7 +42,7 @@ def get_announcements():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@announcement_blueprint.route('/announcements/<announcement_id>', methods=['GET'])
+@announcement_blueprint.route('/id/<announcement_id>', methods=['GET'])
 def get_announcement_by_id(announcement_id):
     try:
         announcement = Announcement.get_announcement_by_id(announcement_id)
@@ -52,7 +52,7 @@ def get_announcement_by_id(announcement_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@announcement_blueprint.route('/announcements/update', methods=['PUT'])
+@announcement_blueprint.route('/update', methods=['PUT'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def update_announcements():
     try:

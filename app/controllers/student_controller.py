@@ -1,7 +1,10 @@
-from flask import request, jsonify, Blueprint, abort
+from flask import make_response, request, jsonify, Blueprint, abort
 from bson.objectid import ObjectId
 from datetime import datetime
+import bcrypt
+import jwt
 from app import mongo
+from app.models.userModel import User
 from app.utils.middleware import check_permission
 from app.models.admin import Role
 from app.utils.config import Config
@@ -31,29 +34,43 @@ def get_all_students():
             "message": f"An error occurred: {str(e)}"
         }), 500
 
-# Add a new student
-@student_bp.route('/add', methods=['POST'])
+
 @check_permission([Role.FACULTY, Role.SECRETARY])
+@student_bp.route('/add', methods=['POST'])
 def add_student():
     try:
+        # Get JSON data from the request
         data = request.json
-        required_fields = ["first_name", "last_name", "email", "role"]
+
+        # Check for required fields
+        required_fields = ["first_name", "last_name", "email", "role", "password"]
         if not all(field in data for field in required_fields):
             abort(400, description="Missing required fields")
 
+        # Hash the password using bcrypt
+        hashed_password = bcrypt.hashpw(data["password"].encode('utf-8'), bcrypt.gensalt())
+
+        # Prepare the student object
         student = {
             "first_name": data["first_name"],
             "last_name": data["last_name"],
             "roll_no": data.get("roll_no"),
             "email": data["email"],
             "role": data["role"],
+            "password": hashed_password,  # Store the hashed password
             "created_at": datetime.utcnow(),
             "last_updated": datetime.utcnow(),
             "active": True
         }
+
+        # Insert the student into the database
         result = mongo.db.users.insert_one(student)
+
+        # Respond with success message
         return jsonify({"message": "Student added successfully", "id": str(result.inserted_id)}), 201
+
     except Exception as e:
+        # Handle any exceptions
         return jsonify({
             "error": "Internal Server Error",
             "message": f"An error occurred: {str(e)}"
@@ -126,3 +143,54 @@ def delete_student(student_id):
             "error": "Internal Server Error",
             "message": f"An error occurred: {str(e)}"
         }), 500
+
+@student_bp.route('/login', methods=['POST'])
+def login():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+
+        # Extract and validate email and password
+        email = data.get("email")
+        password = data.get("password")
+        
+        if not email or not password:
+            return jsonify({"error": "Email and password are required"}), 400
+        
+        # Authenticate user (assuming `authenticate_user` is implemented correctly)
+        user = User.authenticate_user(email, password)
+        
+        # Generate JWT token
+        token = jwt.encode(
+            {
+                "user_id": user["_id"],
+            },
+            Config.SECRET_KEY,
+            algorithm="HS256"
+        )
+        
+        # Create response and set token in HttpOnly cookie
+        response = make_response(jsonify({"message": "Login successful", "token": token}))
+        response.set_cookie("token", token, httponly=True, samesite='Strict')  # Use SameSite for additional security
+
+        return response, 200
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 401  # Invalid credentials
+    
+    except jwt.PyJWTError as jwt_error:
+        return jsonify({"error": "Token generation error", "details": str(jwt_error)}), 500  # Token-related errors
+    
+    except Exception as e:
+        return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
+
+
+@student_bp.route('/logout', methods=['POST'])
+def logout():
+    try:
+        # Clear the cookie
+        response = make_response(jsonify({"message": "Logout successful"}))
+        response.set_cookie("token", "", expires=0)
+        return response, 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

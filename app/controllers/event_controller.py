@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models.events import Event
 from app.schemas.event_schema import EventSchema
+from bson import ObjectId
 import jwt
 from app.utils.middleware import check_permission
 from app.models.admin import Admin, AdminModel, Role
@@ -12,40 +13,20 @@ event_blueprint = Blueprint('events', __name__)
 
 event_schema = EventSchema()
 
-# SECRET_KEY = os.getenv('SECRET_KEY', 'your_secret_key')  
+def convert_objectid(data):
+    """Recursively convert ObjectId instances to strings in the data structure."""
+    if isinstance(data, dict):
+        return {key: convert_objectid(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_objectid(item) for item in data]
+    elif isinstance(data, ObjectId):
+        return str(data)
+    elif isinstance(data, (datetime, date)):
+        return data.isoformat()
+    return data
 
-# def admin_required(f):
-#     def wrapper(*args, **kwargs):
-#         token = request.headers.get("Authorization")
-#         if not token:
-#             return jsonify({"error": "Token is missing"}), 403
 
-#         try:
-#             # Extract JWT token from "Bearer <token>"
-#             token = token.split(" ")[1]
-#             decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-#             request.admin = decoded["username"]  # Store admin username in the request object
-#         except jwt.ExpiredSignatureError:
-#             return jsonify({"error": "Token has expired"}), 401
-#         except jwt.InvalidTokenError:
-#             return jsonify({"error": "Invalid token"}), 401
-
-#         return f(*args, **kwargs)
-
-#     wrapper.__name__ = f.__name__
-#     return wrapper
-
-# for check
-# def admin_required(f):
-#     def wrapper(*args, **kwargs):
-#         admin_password = request.headers.get("Admin-Password")
-#         if admin_password != "your_admin_password":  # Replace with secure password storage
-#             return jsonify({"error": "Unauthorized"}), 403
-#         return f(*args, **kwargs)
-#     wrapper.__name__ = f.__name__
-#     return wrapper
-
-@event_blueprint.route('/create', methods=['POST'])
+@event_blueprint.route('/add', methods=['POST'])
 @check_permission([Role.FACULTY, Role.SECRETARY])
 def create_event():
     try:
@@ -71,7 +52,7 @@ def get_events():
             event['_id'] = str(event['_id'])  
             if isinstance(event.get('date'), (datetime, date)):  
                 event['date'] = event['date'].isoformat()   
-
+        events = convert_objectid(events)
         return jsonify({"events": events}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -113,3 +94,4 @@ def delete_events():
         return jsonify({"message": "Event(s) deleted successfully!", "result": result}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    

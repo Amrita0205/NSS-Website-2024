@@ -24,6 +24,7 @@ import EventDetail1 from './components/EventDetail1';
 import EventDetail2 from './components/EventDetail2';
 import EventDetail3 from './components/EventDetail3';
 import EventDetail4 from './components/EventDetail4';
+import "../src/index.css"
 
 
 

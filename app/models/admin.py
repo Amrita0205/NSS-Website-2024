@@ -86,8 +86,13 @@ class AdminModel:
 
     @staticmethod
     def update_admin(admin_id: ObjectId, data: dict):
-        data["password"] = bcrypt.hashpw(data["password"].encode("utf-8"), bcrypt.gensalt())
+        # Check if 'password' exists and has a value
+        if data.get("password"):  # Use .get() to avoid KeyError
+            data["password"] = bcrypt.hashpw(data["password"].encode("utf-8"), bcrypt.gensalt())
+        
+        # Perform the partial update
         return mongo.db.admins.update_one({"_id": admin_id}, {"$set": data})
+
     
     @staticmethod
     def authenticate_admin(email: str, password: str):

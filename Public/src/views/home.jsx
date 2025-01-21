@@ -25,7 +25,7 @@ const Home = () => {
       <Helmet>
         <title>NSS IIIT Raichur</title>
       </Helmet>
-      <Navbar></Navbar>
+      <Navbar/>
       <section id="Intro" ref={introRef}>
         <Intro />
       </section>

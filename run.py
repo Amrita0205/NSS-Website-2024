@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from app.utils.extensions import mongo
 from flask_cors import CORS
-from app.controllers.events_controller import event_blueprint
+from app.controllers.event_controller import event_blueprint
 from app.controllers.announcements_controller import announcement_blueprint
 from app.controllers.team_controller import team_blueprint  
 from app.routes.admin_routes import admin_bp

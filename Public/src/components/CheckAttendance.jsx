@@ -1,37 +1,58 @@
-import React, { useState } from 'react';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
-import './CheckAttendance.css';
+import React, { useState, useEffect } from "react";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import "./CheckAttendance.css";
 
 const CheckAttendance = () => {
-  const events = [
-    { name: "Event 1" },
-    { name: "Event 2" },
-    { name: "Event 3" }
-  ];
-
-  const attendeesData = {
-    "Event 1": [
-      { name: "Student A", rollNo: "101", batch: "Batch 1" },
-      { name: "Student B", rollNo: "102", batch: "Batch 2" }
-    ],
-    "Event 2": [
-      { name: "Student C", rollNo: "201", batch: "Batch 3" },
-      { name: "Student D", rollNo: "202", batch: "Batch 1" }
-    ],
-    "Event 3": [
-      { name: "Student E", rollNo: "301", batch: "Batch 2" },
-      { name: "Student F", rollNo: "302", batch: "Batch 3" }
-    ]
-  };
-
+  const [events, setEvents] = useState([]); // Store events fetched from the API
   const [selectedEvent, setSelectedEvent] = useState("");
   const [attendees, setAttendees] = useState([]);
+  const [loading, setLoading] = useState(false); // Handle loading state
+  const [error, setError] = useState(""); // Handle errors
 
-  const handleEventChange = (event) => {
-    const eventName = event.target.value;
-    setSelectedEvent(eventName);
-    setAttendees(attendeesData[eventName] || []);
+  // Fetch events when the component loads
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/v1/event/all");
+        const data = await response.json();
+        setEvents(data.events || []);
+      } catch (err) {
+        setError("Failed to fetch events.");
+        console.error(err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  // Handle event selection and fetch attendance data
+  const handleEventChange = async (event) => {
+    const eventId = event.target.value;
+    setSelectedEvent(eventId);
+    setAttendees([]); // Reset attendees
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/api/v1/student_participation/event/${eventId}`
+      );
+      const data = await response.json();
+      const participations = data.participations || [];
+      setAttendees(
+        participations.map((p) => ({
+          id: p.student_id,
+          hours: p.hours,
+          date: p.created_at,
+        }))
+      );
+    } catch (err) {
+      setError("Failed to fetch attendees.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,17 +66,27 @@ const CheckAttendance = () => {
       <div className="content-section">
         <div className="event-selector">
           <label htmlFor="event">Select an Event</label>
-          <select id="event" value={selectedEvent} onChange={handleEventChange}>
-            <option value="" disabled>Select event</option>
-            {events.map((event, index) => (
-              <option key={index} value={event.name}>
-                {event.name}
+          <select
+            id="event"
+            value={selectedEvent}
+            onChange={handleEventChange}
+          >
+            <option value="" disabled>
+              Select event
+            </option>
+            {events.map((event) => (
+              <option key={event._id} value={event._id}>
+                {event.event_name}
               </option>
             ))}
           </select>
         </div>
 
-        {selectedEvent && attendees.length === 0 && (
+        {loading && <div className="loading">Loading attendees...</div>}
+
+        {error && <div className="error">{error}</div>}
+
+        {selectedEvent && attendees.length === 0 && !loading && (
           <div className="no-attendees">No attendees for this event.</div>
         )}
 
@@ -65,17 +96,17 @@ const CheckAttendance = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Roll No</th>
-                  <th>Batch</th>
+                  <th>Student ID</th>
+                  <th>Hours</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
-                {attendees.map((student, index) => (
+                {attendees.map((attendee, index) => (
                   <tr key={index}>
-                    <td>{student.name}</td>
-                    <td>{student.rollNo}</td>
-                    <td>{student.batch}</td>
+                    <td>{attendee.id}</td>
+                    <td>{attendee.hours}</td>
+                    <td>{new Date(attendee.date).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

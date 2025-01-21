@@ -1,120 +1,132 @@
-import React from "react";
-import "mdb-ui-kit/css/mdb.min.css"; // MDB styles
-import "@fortawesome/fontawesome-free/css/all.min.css"; // Font Awesome icons
-import image5 from "/images/nss-inverted.png";
-import { Link } from 'react-router-dom';
-import "./Signup.css"; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FaUser, FaEnvelope, FaLock, FaIdBadge } from "react-icons/fa";
 
-function Signup() {
+const Signup = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    roll_no: "",
+    email: "",
+    role: "student",
+    password: "",
+  });
+
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+
+    try {
+      const response = await axios.post("/api/v1/student/add", formData, {
+        withCredentials: true,
+      });
+      setMessage(response.data.message);
+      navigate("/app");
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong");
+    }
+  };
+
   return (
-    <div className="col-lg-12 col-xl-11">
-    <div className="card signup-card text-black">
-      <div className="card-body p-md-5">
-        <div className="row justify-content-center">
-          <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-            <p className="signup-form-title">Sign up</p>
-            <form className="signup-form">
-              <div className="signup-input-group">
-                <i className="fas fa-user signup-input-icon"></i>
-                <div className="form-outline flex-fill mb-0">
-                  <input
-                    type="text"
-                    id="form3Example1c"
-                    className="form-control signup-form-control"
-                  />
-                  <label
-                    className="form-label signup-form-label"
-                    htmlFor="form3Example1c"
-                  >
-                    Your Name
-                  </label>
-                </div>
-              </div>
-              <div className="signup-input-group">
-                <i className="fas fa-envelope signup-input-icon"></i>
-                <div className="form-outline flex-fill mb-0">
-                  <input
-                    type="email"
-                    id="form3Example3c"
-                    className="form-control signup-form-control"
-                  />
-                  <label
-                    className="form-label signup-form-label"
-                    htmlFor="form3Example3c"
-                  >
-                    Your Email
-                  </label>
-                </div>
-              </div>
-              <div className="signup-input-group">
-                <i className="fas fa-lock signup-input-icon"></i>
-                <div className="form-outline flex-fill mb-0">
-                  <input
-                    type="password"
-                    id="form3Example4c"
-                    className="form-control signup-form-control"
-                  />
-                  <label
-                    className="form-label signup-form-label"
-                    htmlFor="form3Example4c"
-                  >
-                    Password
-                  </label>
-                </div>
-              </div>
-              <div className="signup-input-group">
-                <i className="fas fa-key signup-input-icon"></i>
-                <div className="form-outline flex-fill mb-0">
-                  <input
-                    type="password"
-                    id="form3Example4cd"
-                    className="form-control signup-form-control"
-                  />
-                  <label
-                    className="form-label signup-form-label"
-                    htmlFor="form3Example4cd"
-                  >
-                    Repeat your password
-                  </label>
-                </div>
-              </div>
-              <div className="signup-checkbox">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="form2Example3c"
-                />
-                <label className="form-check-label" htmlFor="form2Example3c">
-                  I agree to all statements in{" "}
-                  <a href="#!">Terms of service</a>
-                </label>
-              </div>
-              <div className="signup-submit-btn">
-                <button type="submit" className="btn btn-primary btn-lg">
-                  Register
-                </button>
-              </div>
-              {/* <div className="signup-link">
-                <Link to="/login">Already have an account? Log in</Link>
-              </div> */}
-            </form>
-          </div>
-          <div className="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2 signup-image-container">
-            <img
-              src={image5}
-              className="signup-image"
-              alt="Sample"
-            />
-          </div>
-        </div>
+    <div className="flex w-screen h-screen justify-center items-center bg-gradient-to-br from-purple-200 via-blue-300 to-blue-500">
+  <div className="w-screen bg-white shadow-xl rounded-lg px-8 py-12">
+    <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-8">Register Student</h2>
+    {message && (
+      <div className="bg-green-50 border-l-4 border-green-400 text-green-700 p-4 rounded mb-6">
+        {message}
       </div>
-    </div>
+    )}
+    {error && (
+      <div className="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded mb-6">
+        {error}
+      </div>
+    )}
+
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-inner">
+        <FaUser className="text-gray-400 mr-3" />
+        <input
+          type="text"
+          name="first_name"
+          value={formData.first_name}
+          onChange={handleChange}
+          className="w-full bg-transparent focus:outline-none text-black"
+          placeholder="First Name"
+          required
+        />
+      </div>
+      <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-inner">
+        <FaUser className="text-gray-400 mr-3" />
+        <input
+          type="text"
+          name="last_name"
+          value={formData.last_name}
+          onChange={handleChange}
+          className="w-full bg-transparent focus:outline-none text-black"
+          placeholder="Last Name"
+          required
+        />
+      </div>
+      <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-inner">
+        <FaIdBadge className="text-gray-400 mr-3" />
+        <input
+          type="text"
+          name="roll_no"
+          value={formData.roll_no}
+          onChange={handleChange}
+          className="w-full bg-transparent focus:outline-none text-black"
+          placeholder="Roll Number"
+        />
+      </div>
+      <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-inner">
+        <FaEnvelope className="text-gray-400 mr-3" />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full bg-transparent focus:outline-none text-black"
+          placeholder="Email Address"
+          required
+        />
+      </div>
+      <div className="flex items-center bg-gray-100 p-4 rounded-lg shadow-inner">
+        <FaLock className="text-gray-400 mr-3" />
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full bg-transparent focus:outline-none text-black"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg font-medium hover:from-blue-500 hover:to-purple-500 focus:ring-4 focus:ring-blue-300 transition"
+      >
+        Register
+      </button>
+    </form>
   </div>
+</div>
 
   );
-}
+};
 
 export default Signup;
-
-  

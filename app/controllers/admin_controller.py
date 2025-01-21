@@ -91,6 +91,9 @@ def add_admin():
         # Check if a Secretary already exists
         secretary_exists = AdminModel.get_admin_by_role(Role.SECRETARY)
 
+        if admin.role not in Role.__members__.values():
+            return jsonify({'error': 'Invalid Role'}), 400
+
         # If Secretary exists, prevent adding a new one
         if secretary_exists and admin.role == Role.SECRETARY:
             return jsonify({'error': 'Secretary already exists, cannot add another Secretary'}), 400
@@ -148,6 +151,9 @@ def update_admin(admin_id):
         # Check if role update is attempted
         if 'role' in data:
             new_role = data['role']
+
+            if new_role not in Role.__members__.values():
+                return jsonify({'error': 'Invalid Role'}), 400
             
             # Faculty role restrictions
             if current_user_role == Role.FACULTY:

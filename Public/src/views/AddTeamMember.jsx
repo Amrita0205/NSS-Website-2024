@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import TeamMemberCard from '../components/TeamMemberCard';
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
-import './AddTeamMember.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import TeamMemberCard from "../components/TeamMemberCard";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "./AddTeamMember.css";
 
 const AddTeamMember = () => {
   const [teamMembers, setTeamMembers] = useState([]);
-
-  useEffect(() => {
-    const fetchedTeamMembers = [
-      { name: 'John Doe', position: 'Developer', batch: '2020', email: 'john@example.com', image: 'https://via.placeholder.com/150' },
-      { name: 'Jane Smith', position: 'Designer', batch: '2019', email: 'jane@example.com', image: 'https://via.placeholder.com/150' },
-      { name: 'Michael Lee', position: 'Product Manager', batch: '2021', email: 'michael@example.com', image: 'https://via.placeholder.com/150' },
-    ];
-
-    setTeamMembers(fetchedTeamMembers);
-  }, []);
-
   const [formData, setFormData] = useState({
-    name: '',
-    position: '',
-    batch: '',
-    email: '',
+    name: "",
+    role: "",
+    email: "",
     image: null,
   });
+  const [error, setError] = useState("");
 
-  const [error, setError] = useState('');
+  useEffect(() => {
+    // Fetch current team members from the backend API
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await axios.get("/api/v1/admin/all");
+        setTeamMembers(response.data.admins);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to fetch team members.");
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,49 +39,91 @@ const AddTeamMember = () => {
     setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
       !formData.name ||
-      !formData.position ||
+      !formData.role ||
       !formData.batch ||
       !formData.email ||
       !formData.image
     ) {
-      setError('All fields are required. Please fill in all details.');
+      setError("All fields are required. Please fill in all details.");
       return;
     }
 
-    const imageUrl = URL.createObjectURL(formData.image);
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("role", formData.role);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("image", formData.image);
 
-    setTeamMembers([
-      ...teamMembers,
-      { name: formData.name, position: formData.position, batch: formData.batch, email: formData.email, image: imageUrl },
-    ]);
+    try {
+      const response = await axios.post("/api/v1/admin/add", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    setFormData({
-      name: '',
-      position: '',
-      batch: '',
-      email: '',
-      image: null,
-    });
-
-    setError('');
-    alert('Form successfully submitted!');
+      if (response.status === 200) {
+        setTeamMembers([...teamMembers, response.data.admin]);
+        setFormData({
+          name: "",
+          role: "",
+          email: "",
+          image: null,
+        });
+        setError("");
+        alert("Form successfully submitted!");
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      setError("Failed to add team member.");
+    }
   };
 
-  const handleEdit = (email, updatedData) => {
-    setTeamMembers((prevMembers) =>
-      prevMembers.map((member) =>
-        member.email === email ? { ...member, ...updatedData } : member
-      )
-    );
+  const handleEdit = async (_id, updatedData) => {
+    try {
+      const response = await axios.put(
+        `/api/v1/admin/update/${_id}`,
+        updatedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setTeamMembers((prevMembers) =>
+          prevMembers.map((member) =>
+            member._id === _id ? { ...member, ...updatedData } : member
+          )
+        );
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      setError("Failed to edit team member.");
+    }
   };
 
-  const handleDelete = (email) => {
-    setTeamMembers((prevMembers) => prevMembers.filter((member) => member.email !== email));
+  const handleDelete = async (_id) => {
+    try {
+      const response = await axios.delete(`/api/v1/admin/delete/${_id}`);
+
+      if (response.status === 200) {
+        setTeamMembers((prevMembers) =>
+          prevMembers.filter((member) => member._id !== _id)
+        );
+      } else {
+        setError(response.data.error);
+      }
+    } catch (error) {
+      setError("Failed to delete team member.");
+    }
   };
 
   return (
@@ -92,7 +137,9 @@ const AddTeamMember = () => {
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit} className="form">
           <div className="form-group">
-            <label htmlFor="name" className="label">Name</label>
+            <label htmlFor="name" className="label">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -104,19 +151,23 @@ const AddTeamMember = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="position" className="label">Position</label>
+            <label htmlFor="role" className="label">
+              Role
+            </label>
             <input
               type="text"
-              id="position"
-              name="position"
-              value={formData.position}
+              id="role"
+              name="role"
+              value={formData.role}
               onChange={handleInputChange}
-              placeholder="Enter position"
+              placeholder="Enter role"
               className="input-field"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="batch" className="label">Batch</label>
+            <label htmlFor="batch" className="label">
+              Batch
+            </label>
             <input
               type="text"
               id="batch"
@@ -128,7 +179,9 @@ const AddTeamMember = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="email" className="label">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -140,7 +193,9 @@ const AddTeamMember = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="image" className="label">Image</label>
+            <label htmlFor="image" className="label">
+              Image
+            </label>
             <input
               type="file"
               id="image"
@@ -160,7 +215,6 @@ const AddTeamMember = () => {
 
       <div className="team-container">
         <h3 className="team-title">Current Team Members</h3>
-
         <div className="team-members-list">
           {teamMembers.map((member, index) => (
             <div key={index} className="team-member-card-container">
@@ -172,7 +226,6 @@ const AddTeamMember = () => {
             </div>
           ))}
         </div>
-
       </div>
       <Footer />
     </div>

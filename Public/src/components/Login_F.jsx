@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -23,7 +24,7 @@ function Login() {
     e.preventDefault(); // Prevent form submission
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/api/v1/admin/login", formData);
+      const response = await axios.post("/api/v1/admin/login", formData);
       console.log(response.data);
       
       // Assuming the response contains a token
@@ -32,7 +33,7 @@ function Login() {
       // Store the token in a cookie (valid for 1 day)
       Cookies.set("auth_token", token, { expires: 1 });
 
-      console.log("Login successful:", response.data);
+      // console.log("Login successful:", response.data);
 
       // Navigate to the dashboard page after successful login
       navigate("/dashboard");

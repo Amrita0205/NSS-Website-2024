@@ -5,8 +5,7 @@ import './EditDeleteDialog.css'
 const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
   const [formData, setFormData] = useState({
     name: data.name,
-    position: data.position,
-    batch: data.batch,
+    role: data.role,
     email: data.email,
   });
 
@@ -14,8 +13,7 @@ const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
     if (data.action === 'edit') {
       setFormData({
         name: data.name,
-        position: data.position,
-        batch: data.batch,
+        role: data.role,
         email: data.email,
       });
     }
@@ -32,7 +30,7 @@ const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
   };
 
   const handleSubmitDelete = () => {
-    onDelete(data.email);
+    onDelete();
   };
 
   return (
@@ -55,21 +53,11 @@ const EditDeleteDialog = ({ data, onClose, onEdit, onDelete }) => {
               />
             </div>
             <div className="form-group">
-              <label>Position</label>
+              <label>Role</label>
               <input
                 type="text"
-                name="position"
-                value={formData.position}
-                onChange={handleInputChange}
-                className="input-field"
-              />
-            </div>
-            <div className="form-group">
-              <label>Batch</label>
-              <input
-                type="text"
-                name="batch"
-                value={formData.batch}
+                name="role"
+                value={formData.role}
                 onChange={handleInputChange}
                 className="input-field"
               />

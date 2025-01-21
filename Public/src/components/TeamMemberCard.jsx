@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import EditDeleteDialog from './EditDeleteDialog';
 import './TeamMemberCard.css'
 
-const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete }) => {
+const TeamMemberCard = ({ _id, name, email, role, batch, image, onEdit, onDelete }) => {
   const [dialogData, setDialogData] = useState(null);
 
   const handleEdit = () => {
@@ -10,8 +10,7 @@ const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete 
       action: 'edit',
       name,
       email,
-      position,
-      batch,
+      role
     });
   };
 
@@ -28,12 +27,12 @@ const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete 
   };
 
   const handleEditSubmit = (updatedData) => {
-    onEdit(email, updatedData);
+    onEdit(_id, updatedData);
     setDialogData(null); // Close dialog after edit
   };
 
   const handleDeleteSubmit = () => {
-    onDelete(email);
+    onDelete(_id);
     setDialogData(null); // Close dialog after delete
   };
 
@@ -49,8 +48,7 @@ const TeamMemberCard = ({ name, email, position, batch, image, onEdit, onDelete 
         </div>
         <div className="team-member-details">
           <h1 className="team-member-name">{name || 'Name'}</h1>
-          <p className="team-member-position">{position || 'Position'}</p>
-          <p className="team-member-batch">{batch || 'Batch'}</p>
+          <p className="team-member-role">{role.toUpperCase() || 'role'}</p>
         </div>
         <div className="card-divider"></div>
 

@@ -10,3 +10,4 @@ student_bp.route('/id/<string:student_id>', methods=['GET'])(student_controller.
 student_bp.route('/add', methods=['POST'])(student_controller.add_student)
 student_bp.route('/update/<string:student_id>', methods=['PUT'])(student_controller.update_student)
 student_bp.route('/delete/<string:student_id>', methods=['DELETE'])(student_controller.delete_student)
+student_bp.route('/login', methods=['POST'])(student_controller.login)

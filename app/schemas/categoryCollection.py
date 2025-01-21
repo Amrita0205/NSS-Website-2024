@@ -18,7 +18,6 @@ class ObjectIdField(fields.Field):
 class CategorySchema(Schema):
     _id = ObjectIdField(dump_only=True)  # Read-only MongoDB ObjectId
     name = fields.Str(required=True, error_messages={"required": "Name is required."})
-    description = fields.Str(required=True, error_messages={"required": "Description is required."})
     min_hours = fields.Int(required=True, validate=validate.Range(min=0), error_messages={"required": "Minimum hours are required."})
     created_at = fields.DateTime(dump_only=True, default=datetime.utcnow)
 

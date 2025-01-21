@@ -1,10 +1,12 @@
+import bcrypt
 from flask import jsonify
 from bson.objectid import ObjectId
 from datetime import datetime
 from app import mongo
+from app.models.admin import to_str_id
 
 class User:
-    collection = mongo.db['users']  # MongoDB collection
+    # collection = mongo.db.users  # MongoDB collection
 
     @staticmethod
     def create_user(data):
@@ -13,7 +15,7 @@ class User:
         """
         data['created_at'] = datetime.utcnow()
         data['last_updated'] = datetime.utcnow()
-        result = User.collection.insert_one(data)
+        result = mongo.db.users.insert_one(data)
         return {"inserted_id": str(result.inserted_id)}
 
     @staticmethod
@@ -21,7 +23,7 @@ class User:
         """
         Retrieve a single user based on the query.
         """
-        user = User.collection.find_one(query)
+        user = mongo.db.users.find_one(query)
         if user:
             user["_id"] = str(user["_id"])
             if isinstance(user.get("created_at"), datetime):
@@ -36,7 +38,7 @@ class User:
         Update a user's details based on the query.
         """
         new_data['last_updated'] = datetime.utcnow()
-        result = User.collection.update_one(query, {"$set": new_data})
+        result = mongo.db.users.update_one(query, {"$set": new_data})
         return {"modified_count": result.modified_count}
 
     @staticmethod
@@ -44,7 +46,7 @@ class User:
         """
         Delete a user from the database.
         """
-        result = User.collection.delete_one(query)
+        result = mongo.db.users.delete_one(query)
         return {"deleted_count": result.deleted_count}
 
     @staticmethod
@@ -52,7 +54,7 @@ class User:
         """
         Retrieve all users from the database.
         """
-        users = list(User.collection.find({}, {"_id": 1, "first_name": 1, "last_name": 1, "email": 1}))
+        users = list(mongo.db.users.find({}, {"_id": 1, "first_name": 1, "last_name": 1, "email": 1}))
         for user in users:
             user["_id"] = str(user["_id"])
         return users
@@ -62,7 +64,7 @@ class User:
         """
         Retrieve students with their batch and branch details based on their roll numbers.
         """
-        students = User.collection.find({"role": "student", "active": True})
+        students = mongo.db.users.find({"role": "student", "active": True})
         students_with_details = []
 
         for student in students:
@@ -89,3 +91,21 @@ class User:
             students_with_details.append(student_details)
 
         return students_with_details
+    
+    @staticmethod
+    def authenticate_user(email: str, password: str):
+        user = mongo.db.users.find_one({"email": email})
+        if not user:
+            raise ValueError("Invalid email or password")
+        
+        # Convert the stored password to bytes if it's a string
+        stored_password = user["password"]
+        if isinstance(stored_password, str):
+            stored_password = stored_password.encode("utf-8")
+            
+        # Verify password
+        if not bcrypt.checkpw(password.encode("utf-8"), stored_password):
+            raise ValueError("Invalid email or password")
+        
+        return to_str_id(user)
+

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, abort
 from marshmallow import ValidationError
 from app.models.categoryModel import Category
 from app.schemas.categoryCollection import category_schema
+from app.schemas.categoryCollection import CategorySchema 
 from bson.objectid import ObjectId
 
 # Create a Blueprint for category routes
@@ -56,10 +57,14 @@ def delete_category(category_id):
         return jsonify({"message": "Category deleted successfully"}), 200
     except Exception:
         abort(400, description="Invalid category ID")
-
-# Route to fetch all categories
+        
 @category_bp.route('/all', methods=['GET'])
 def get_all_categories():
     # Fetch all categories from the database
     categories = Category.get_all_categories()
-    return jsonify(categories.dump(categories)), 200
+
+    # Initialize the schema (many=True for a list of categories)
+    category_schema = CategorySchema(many=True)
+
+    # Serialize the list of categories
+    return jsonify(category_schema.dump(categories)), 200
